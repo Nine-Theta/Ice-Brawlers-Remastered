@@ -17,6 +17,7 @@ namespace GXPEngine
 
 		private UpdateManager _updateManager;
 		private CollisionManager _collisionManager;
+		private List<GameObject> _gameObjectsContained;
 
 		/// <summary>
 		/// Step delegate defines the signature of a method used for step callbacks, see OnBeforeStep, OnAfterStep.
@@ -58,6 +59,7 @@ namespace GXPEngine
 				_collisionManager = new CollisionManager ();
 				_glContext = new GLContext (this);
 				_glContext.CreateWindow (pWidth, pHeight, pFullScreen, pVSync);
+				_gameObjectsContained = new List<GameObject>();
 
 				//register ourselves for updates
 				Add (this);
@@ -140,17 +142,30 @@ namespace GXPEngine
 		//------------------------------------------------------------------------------------------------------------------------
 		internal void Add (GameObject gameObject)
 		{
-			_updateManager.Add (gameObject);
-			_collisionManager.Add (gameObject);
+			if (!_gameObjectsContained.Contains (gameObject)) {
+				_updateManager.Add (gameObject);
+				_collisionManager.Add (gameObject);
+				_gameObjectsContained.Add (gameObject);
+			}
 		}
-
+		
 		//------------------------------------------------------------------------------------------------------------------------
 		//														Remove()
 		//------------------------------------------------------------------------------------------------------------------------
 		internal void Remove (GameObject gameObject)
 		{
-			_updateManager.Remove (gameObject);
-			_collisionManager.Remove (gameObject);
+			if (_gameObjectsContained.Contains (gameObject)) {
+				_updateManager.Remove (gameObject);
+				_collisionManager.Remove (gameObject);
+				_gameObjectsContained.Remove (gameObject);
+			}
+		}
+
+		//------------------------------------------------------------------------------------------------------------------------
+		//														Contains()
+		//------------------------------------------------------------------------------------------------------------------------
+		public Boolean Contains(GameObject gameObject) {
+			return _gameObjectsContained.Contains(gameObject);
 		}
 
 		//------------------------------------------------------------------------------------------------------------------------

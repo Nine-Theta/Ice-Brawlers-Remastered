@@ -1,0 +1,32 @@
+﻿<Properties StartupConfiguration="{B5126D4C-7FE0-4552-BC8C-E68D529C22B2}|Default">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.Workbench ActiveDocument="Enemy.cs">
+    <Files>
+      <File FileName="MyGame.cs" Line="13" Column="24" />
+      <File FileName="Level.cs" Line="174" Column="68" />
+      <File FileName="PlayerClass.cs" Line="12" Column="27" />
+      <File FileName="WallClass.cs" Line="7" Column="58" />
+      <File FileName="PlayerHitBox.cs" Line="15" Column="15" />
+      <File FileName="Enemy.cs" Line="54" Column="98" />
+      <File FileName="Weapon.cs" Line="76" Column="34" />
+      <File FileName="Bullet.cs" Line="23" Column="4" />
+      <File FileName="Coin.cs" Line="18" Column="20" />
+      <File FileName="ShopKeep.cs" Line="6" Column="47" />
+      <File FileName="LevelStorage.cs" Line="690" Column="36" />
+      <File FileName="Pointer.cs" Line="60" Column="37" />
+      <File FileName="BorderPrices.cs" Line="45" Column="37" />
+      <File FileName="ShopText.cs" Line="6" Column="45" />
+      <File FileName="Counter.cs" Line="163" Column="4" />
+      <File FileName="ExitPlate.cs" Line="10" Column="4" />
+      <File FileName="Gun.cs" Line="8" Column="37" />
+      <File FileName="MenuText.cs" Line="57" Column="6" />
+      <File FileName="SouthPaw.cs" Line="28" Column="82" />
+      <File FileName="GXPEngine\GameObject.cs" Line="347" Column="21" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.ItemProperties.GXPEngine PreferredExecutionTarget="MonoDevelop.Default" />
+</Properties>

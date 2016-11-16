@@ -44,11 +44,6 @@ namespace GXPEngine
 			_invalidate = true;
 		}
 
-		~Canvas()
-		{
-			_graphics.Dispose();
-			_graphics = null;
-		}
 
 		//------------------------------------------------------------------------------------------------------------------------
 		//														Destroy()
@@ -57,6 +52,7 @@ namespace GXPEngine
 		/// Destroys this sprite and underlying graphics object.
 		/// </summary>
 		override public void Destroy() {
+			_graphics.Dispose();
 			base.Destroy();
 		}
 

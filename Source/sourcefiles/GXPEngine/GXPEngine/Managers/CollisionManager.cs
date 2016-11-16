@@ -11,7 +11,7 @@ namespace GXPEngine
 	{
 		
 		private delegate void CollisionDelegate(GameObject gameObject);
-
+		
 		//------------------------------------------------------------------------------------------------------------------------
 		//														ColliderInfo
 		//------------------------------------------------------------------------------------------------------------------------
@@ -31,8 +31,7 @@ namespace GXPEngine
 		private List<GameObject> colliderList = new List<GameObject>();
 		private List<ColliderInfo> activeColliderList = new List<ColliderInfo>();
 		private Dictionary<GameObject, ColliderInfo> _collisionReferences = new Dictionary<GameObject, ColliderInfo>();
-		private List<GameObject> _removeList = new List<GameObject>();
-
+				
 		//------------------------------------------------------------------------------------------------------------------------
 		//														CollisionManager()
 		//------------------------------------------------------------------------------------------------------------------------
@@ -43,29 +42,21 @@ namespace GXPEngine
 		//------------------------------------------------------------------------------------------------------------------------
 		//														Step()
 		//------------------------------------------------------------------------------------------------------------------------
-		public void Step ()
-		{
+		public void Step() {
 			for (int i=activeColliderList.Count-1; i>= 0; i--) {
-				ColliderInfo info = activeColliderList [i];
-				if (info.gameObject.IsDestroyed ())
-					continue;
+				ColliderInfo info = activeColliderList[i];
 				for (int j=colliderList.Count-1; j>=0; j--) {
-					GameObject other = colliderList [j];
-					if (other.IsDestroyed ())
-						continue;
+					if (j >= colliderList.Count) continue; //fix for removal in loop
+					GameObject other = colliderList[j];
 					if (info.gameObject != other) {
-						if (info.gameObject.HitTest (other)) {
+						if (info.gameObject.HitTest(other)) {
 							if (info.onCollision != null) {
-								info.onCollision (other);
+								info.onCollision(other);
 							}
 						}
 					}
 				}
 			}
-			foreach (GameObject gameObject in _removeList) {
-				removeFromLists(gameObject);
-			}
-			_removeList.Clear ();
 		}
 
 		//------------------------------------------------------------------------------------------------------------------------
@@ -123,14 +114,7 @@ namespace GXPEngine
 		//------------------------------------------------------------------------------------------------------------------------
 		//														Remove()
 		//------------------------------------------------------------------------------------------------------------------------
-		public void Remove (GameObject gameObject) {
-			_removeList.Add(gameObject);
-		}
-
-		//------------------------------------------------------------------------------------------------------------------------
-		//														removeFromLists()
-		//------------------------------------------------------------------------------------------------------------------------
-		private void removeFromLists(GameObject gameObject) {
+		public void Remove(GameObject gameObject) {
 			colliderList.Remove(gameObject);
 			if (_collisionReferences.ContainsKey(gameObject)) {
 				ColliderInfo colliderInfo = _collisionReferences[gameObject];

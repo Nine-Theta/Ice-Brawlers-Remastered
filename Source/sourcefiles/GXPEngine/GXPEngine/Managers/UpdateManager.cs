@@ -7,13 +7,9 @@ namespace GXPEngine.Managers
 	public class UpdateManager
 	{
 		private delegate void UpdateDelegate();
-		private delegate void LateUpdateDelegate();
 		
 		private UpdateDelegate _updateDelegates;
-		private LateUpdateDelegate _lateUpdateDelegates;
-
 		private Dictionary<GameObject, UpdateDelegate> _updateReferences = new Dictionary<GameObject, UpdateDelegate>();
-		private Dictionary<GameObject, LateUpdateDelegate> _lateUpdateReferences = new Dictionary<GameObject, LateUpdateDelegate>();
 		
 		//------------------------------------------------------------------------------------------------------------------------
 		//														UpdateManager()
@@ -29,8 +25,6 @@ namespace GXPEngine.Managers
 		{
 			if (_updateDelegates != null)
 				_updateDelegates ();
-			if (_lateUpdateDelegates != null)
-				_lateUpdateDelegates ();
 		}
 
 		//------------------------------------------------------------------------------------------------------------------------
@@ -45,27 +39,17 @@ namespace GXPEngine.Managers
 					_updateDelegates += onUpdate;
 				}
 			} else {
-				validateCase(gameObject, "Update");
-			}
-			info = gameObject.GetType().GetMethod("LateUpdate", BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance);
-			if (info != null) {
-				LateUpdateDelegate onLateUpdate = (LateUpdateDelegate)Delegate.CreateDelegate(typeof(LateUpdateDelegate), gameObject, info, false);
-				if (onLateUpdate != null && !_lateUpdateReferences.ContainsKey(gameObject)) {
-					_lateUpdateReferences[gameObject] = onLateUpdate;
-					_lateUpdateDelegates += onLateUpdate;
-				}
-			} else {
-				validateCase(gameObject, "LateUpdate");
+				validateCase(gameObject);
 			}
 		}
 		
 		//------------------------------------------------------------------------------------------------------------------------
 		//														validateCase()
 		//------------------------------------------------------------------------------------------------------------------------
-		private void validateCase(GameObject gameObject, string name) {
-			MethodInfo info = gameObject.GetType().GetMethod(name, BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance | BindingFlags.IgnoreCase);
+		private void validateCase(GameObject gameObject) {
+			MethodInfo info = gameObject.GetType().GetMethod("Update", BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance | BindingFlags.IgnoreCase);
 			if (info != null) {
-				throw new Exception("'" + name + "' function was not binded for '" + gameObject + "'. Please check it's case. (Capital?)");
+				throw new Exception("'Update' function was not binded for '" + gameObject + "'. Please check it's case. (capital U?)");
 			}
 		}
 

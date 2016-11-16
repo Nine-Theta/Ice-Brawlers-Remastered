@@ -8,6 +8,7 @@
     <ProjectGuid>{B5126D4C-7FE0-4552-BC8C-E68D529C22B2}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AssemblyName>GXPEngine</AssemblyName>
+    <ApplicationManifest>Numbers.manifest</ApplicationManifest>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>True</DebugSymbols>
@@ -61,10 +62,30 @@
     <Compile Include="GXPEngine\Utils\Time.cs" />
     <Compile Include="GXPEngine\Utils\Utils.cs" />
     <Compile Include="MyGame.cs" />
-    <Compile Include="Player.cs" />
-    <Compile Include="Puck.cs" />
+    <Compile Include="PlayerClass.cs" />
+    <Compile Include="OldPlayerClass.cs" />
+    <Compile Include="WallClass.cs" />
+    <Compile Include="Level.cs" />
+    <Compile Include="PlayerHitBox.cs" />
+    <Compile Include="Enemy.cs" />
+    <Compile Include="Weapon.cs" />
+    <Compile Include="Bullet.cs" />
+    <Compile Include="LevelStorage.cs" />
+    <Compile Include="Coin.cs" />
+    <Compile Include="ShopKeep.cs" />
+    <Compile Include="Pointer.cs" />
+    <Compile Include="BorderPrices.cs" />
+    <Compile Include="ShopText.cs" />
+    <Compile Include="Counter.cs" />
+    <Compile Include="ExitPlate.cs" />
+    <Compile Include="Gun.cs" />
+    <Compile Include="MenuText.cs" />
+    <Compile Include="SouthPaw.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="GXPEngine\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Numbers.manifest" />
   </ItemGroup>
 </Project>

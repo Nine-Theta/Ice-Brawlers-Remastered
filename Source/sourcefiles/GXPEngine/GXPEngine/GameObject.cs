@@ -14,8 +14,6 @@ namespace GXPEngine
 		
 		private List<GameObject> _children = new List<GameObject>();
 		private GameObject _parent = null;
-
-		private bool _isDestroyed = false;
 		
 		public bool visible = true;
 
@@ -96,7 +94,7 @@ namespace GXPEngine
 		/// </summary>
 		public virtual void Destroy ()
 		{
-			_isDestroyed = true;
+			if (!game.Contains (this)) return;
 			OnDestroy();
 
 			//detach all children
@@ -107,11 +105,11 @@ namespace GXPEngine
 			//detatch from parent
 			if (parent != null) parent = null;
 			//remove from game
-			if (Game.main != null) Game.main.Remove(this);
+			if (Game.main != null) Game.main.Remove (this);
 		}
 
 		//------------------------------------------------------------------------------------------------------------------------
-		//														GetCollisions
+		//														Render
 		//------------------------------------------------------------------------------------------------------------------------
 		/// <summary>
 		/// Get all a list of all objects that currently overlap this one.
@@ -135,7 +133,7 @@ namespace GXPEngine
 		/// Gl context, will be supplied by internal caller.
 		/// </param>
 		public virtual void Render(GLContext glContext) {
-			if (visible && !_isDestroyed) {
+			if (visible) {
 				glContext.PushMatrix(matrix);
 				
 				RenderSelf (glContext);
@@ -297,13 +295,6 @@ namespace GXPEngine
 			_children.Remove(child);
 			_children.Insert(index, child);
 		}
-
-		//------------------------------------------------------------------------------------------------------------------------
-		//														IsDestroyed()
-		//------------------------------------------------------------------------------------------------------------------------
-		internal bool IsDestroyed () {
-			return _isDestroyed;
-		}
 		
 		//------------------------------------------------------------------------------------------------------------------------
 		//														HitTest()
@@ -318,7 +309,7 @@ namespace GXPEngine
 		/// Other.
 		/// </param>
 		virtual public bool HitTest(GameObject other) {
-			return (!_isDestroyed) && _collider != null && other._collider != null && _collider.HitTest (other._collider);
+			return _collider != null && other._collider != null && _collider.HitTest (other._collider);
 		}
 
 		//------------------------------------------------------------------------------------------------------------------------
@@ -335,7 +326,7 @@ namespace GXPEngine
 		/// The y coordinate to test.
 		/// </param>
 		virtual public bool HitTestPoint(float x, float y) {
-			return (!_isDestroyed) && _collider != null && _collider.HitTestPoint(x, y);
+			return _collider != null && _collider.HitTestPoint(x, y);
 		}		
 		
 		//------------------------------------------------------------------------------------------------------------------------
