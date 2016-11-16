@@ -71,3 +71,7 @@ MouseHandler:
 	- setScale added to set both scaleX and scaleY at once
 	- getMouseUp (thanks LeonB)
 	- Sprite.cs width/height getter/setter fixed .. they were using ints 
+0.0.12 
+	- Added LateUpdate
+	- Fixed issue in CollisionManager.cs when 'active collider' items are destroyed by another item during OnCollision loop.
+	- Canvas Destroy behaviour changed: the graphics object is now disposed in the deconstructor instead of in Destroy. This is a design choice to support inexperienced users that accidentally use the Canvas after it is destroyed.

@@ -2,123 +2,115 @@ using System;
 using System.Drawing;
 using GXPEngine;
 
-//TODO: Remove most of the statics
-//TODO: Make an End-Game
-//TODO: Add Music & SoundFX
-//TODO: Optimize the hell out of this code
-//DONE-ish: Make a functioning start screen
-
 public class MyGame : Game //MyGame is a Game
 {
+	public int ScoreRed;
+	public int ScoreBlue;
+
+	float bob;
+	Player player1;
+	Player player2;
+	Goal blueGoal;
+	Goal redGoal;
+	Puck puck;
+	Puck extraPuck;
+	Sprite background;
+	public ScoreBoard blueBoard;
+	public ScoreBoard redBoard;
+
+	Random Rand = new Random();
+
 	//initialize game here
-	//private Wall wall;
-	//private Player playerChar;
-
-	public Level currentLevel { get; private set; }
-	public bool SouthPaw = false;
-	private Level ShopLevel;
-	private Level ShopInterface;
-
-	public MyGame() : base(1920, 1080, false)
+	public MyGame () : base(1200, 900, false)
 	{
-		currentLevel = new Level();
-		AddChild(currentLevel);
-		//CreateNewLevel();
+		background = new Sprite("background.png");
+		AddChild(background);
+		background.scale = 1.5f;
+
+		player1 = new Player(Key.LEFT, Key.RIGHT, Key.UP, Key.DOWN);
+		AddChild(player1);
+		player1.color = 0x4040FF;
+		player1.SetXY(950, 450);
+
+		player2 = new Player(Key.A, Key.D, Key.W, Key.S);
+		AddChild(player2);
+		player2.color = 0xFF4040;
+		player2.SetXY(250, 450);
+
+		puck = new Puck();
+		AddChild(puck);
+		puck.color = 0x505050;
+		puck.SetXY(game.width / 2, game.height/2);
+
+		blueGoal = new Goal("blue");
+		AddChild(blueGoal);
+		blueGoal.SetXY(1050, 450);
+		blueGoal.scaleY = 4.0f;
+
+		redGoal = new Goal("red");
+		AddChild(redGoal);
+		redGoal.SetXY(150, 450);
+		redGoal.scaleY = 4.0f;
+
+		blueBoard = new ScoreBoard();
+		AddChild(blueBoard);
+		blueBoard.color = 0x0000F0;
+		blueBoard.SetXY(1100, 50);
+
+		redBoard = new ScoreBoard();
+		AddChild(redBoard);
+		redBoard.color = 0xF00000;
+		redBoard.SetXY(100, 50);
 	}
 
+	public void Resetti()
+	{
+		puck.Reset();
+		player1.Reset();
+		player1.SetXY(950, 450);
+		player2.Reset();
+		player2.SetXY(250, 450);
+		blueGoal.Reset();
+		blueGoal.SetXY(1050, 450);
+		redGoal.Reset();
+		redGoal.SetXY(150, 450);
+		extraPuck.Destroy();
+	}
+	
 	//update game here
-	public void Update()
+	void Update ()
 	{
-		if (Player.Alive == false || Level.EnemyAlive == 0)
+		if (Input.GetKey(Key.ONE))
 		{
-			currentLevel.Destroy();
-			CreateShop();
+			extraPuck = new Puck();
+			AddChild(extraPuck);
+			extraPuck.color = 0xE000FF;
+			extraPuck.SetXY(game.width / 2, game.height/2);
 		}
-		if (Level.CurrentLevel == 100 && Player.ShopInteract == true)
+		if (Input.GetKeyDown(Key.TWO))
 		{
-			ShopLevel.Destroy();
-			Level.CurrentLevel = 101;			ShopInterface = new Level();
-			AddChild(ShopInterface);
-			Player.ShopInteract = false;
-		}
-
-		if (Level.CurrentLevel == 101 && Pointer.ExitShopInterface == true)
-		{
-			ShopInterface.Destroy();
-			Pointer.ExitShopInterface = false;
-			CreateShop();
-		}
-
-		if (Level.CurrentLevel == 100 && ExitPlate.ExitShop == true)
-		{
-			ExitPlate.ExitShop = false;
-			ShopLevel.Destroy();
-			CreateNewLevel();
-		}
-
-		if (Level.CurrentLevel == 102)
-		{
-			if (currentLevel.exit.currentFrame == 5 && (Input.GetKeyDown(Key.ENTER) || Input.GetKeyDown(Key.SPACE)))
+			if (player2.InversedControls == false)
 			{
-				Environment.Exit(0);
+				player2.InversedControls = true;
 			}
-
-			if (currentLevel.start.currentFrame == 1 && (Input.GetKeyDown(Key.ENTER) || Input.GetKeyDown(Key.SPACE)))
+			else
 			{
-				currentLevel.Destroy();
-				CreateNewLevel();
-			}
-
-			if (Level.CurrentLevel == 102 && currentLevel.options.currentFrame == 3 && (Input.GetKeyDown(Key.ENTER) || Input.GetKeyDown(Key.SPACE)))
-			{
-				currentLevel.Destroy();
-				Level.CurrentLevel = 103;
-				currentLevel = new Level();
-				AddChild(currentLevel);
+				player2.InversedControls = false;
 			}
 		}
 
-		if (Level.CurrentLevel == 103)
+
+		if (Input.GetKeyDown(Key.R))
 		{
-			if (currentLevel.southPawControls.currentFrame == 0)
-			{
-					this.SouthPaw = false;
-			}
-
-			if (currentLevel.southPawControls.currentFrame == 1)
-			{
-					this.SouthPaw = true;
-			}
-
-			if (currentLevel.pointer.y == currentLevel.exit.y && (Input.GetKeyDown(Key.ENTER) || Input.GetKeyDown(Key.SPACE)))
-			{
-				currentLevel.Destroy();
-				Level.CurrentLevel = 102;
-				currentLevel = new Level();
-				AddChild(currentLevel);
-			}
-
-			//Console.WriteLine("{0}", SouthPaw);
+			Resetti();
 		}
+		Console.WriteLine(bob);
 	}
-
-	private void CreateShop()
-	{
-		currentLevel.Destroy();
-		Level.CurrentLevel = 100;
-		ShopLevel = new Level();
-		AddChild(ShopLevel);
-		Player.Alive = true;
-	}
-	private void CreateNewLevel()
-	{
-		currentLevel.Destroy();
-		Level.CurrentLevel = Level.NextLevel;
-		currentLevel = new Level();
-		AddChild(currentLevel);
-	}
-	static void Main()
+	
+	//system starts here
+	static void Main() 
 	{
 		new MyGame().Start();
+
 	}
 }

@@ -16,6 +16,14 @@ namespace GXPEngine
 		public static readonly BlendMode MULTIPLY = new BlendMode (
 			"Multiply", () => {	GL.BlendFunc(GL.DST_COLOR, GL.ZERO);	}
 		);
+		
+		public static readonly BlendMode INVERT = new BlendMode (
+			"Invert", () => {	GL.BlendFunc(GL.ONE_MINUS_DST_COLOR, GL.ONE_MINUS_SRC_COLOR);	}
+		);
+	
+		public static readonly BlendMode ADD = new BlendMode (
+			"Add", () => {	GL.BlendFunc(GL.SRC_ALPHA, GL.ONE);	}
+		);
 
 		public delegate void Action();
 
