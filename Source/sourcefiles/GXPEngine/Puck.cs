@@ -8,10 +8,30 @@ namespace GXPEngine
 		float Friction = 0.981f;
 		float speedLimit = 20.0f;
 
-		public Puck() : base("circle.png")
+		public Puck(int rColour) : base("circle.png")
 		{
 			scale = 0.5f;
 			SetOrigin(width / 2, height / 2);
+
+			//if (rColour == 0x505050)
+			{
+				((MyGame)game).puckReflection = new Sprite("circle.png");
+				((MyGame)game).AddChildAt(((MyGame)game).puckReflection, 1);
+				((MyGame)game).puckReflection.scale = 0.55f;
+				((MyGame)game).puckReflection.alpha = 0.25f;
+				((MyGame)game).puckReflection.color = 0x505050;
+			}
+
+			/*if (rColour == 0xE000FF)
+			{
+				((MyGame)game).extraPuckReflection = new Sprite("circle.png");
+				((MyGame)game).AddChildAt(((MyGame)game).extraPuckReflection, 1);
+				((MyGame)game).extraPuckReflection.scale = 0.55f;
+				((MyGame)game).extraPuckReflection.alpha = 0.25f;
+				((MyGame)game).extraPuckReflection.color = 0xE000FF;
+
+			}*/
+
 
 		}
 
@@ -19,7 +39,8 @@ namespace GXPEngine
 		{
 			SpeedX = 0.0f;
 			SpeedY = 0.0f;
-			SetXY(game.width / 2, game.height / 2);
+			SetXY(game.width / 2, 100);
+			Impulse(0.0f, 7.0f);
 		}
 
 		public void Impulse(float ImpulseX, float ImpulseY)
@@ -94,6 +115,23 @@ namespace GXPEngine
 				SpeedY = -speedLimit;
 			}
 
+			if (SpeedX < 0.1f && SpeedX > -0.1f)
+			{
+				SpeedX = 0.0f;
+			}
+
+			if (SpeedY < 0.1f && SpeedY > -0.1f)
+			{
+				SpeedY = 0.0f;
+			}
+
+			if (Input.GetKeyDown(Key.R))
+			{
+				if (this.color == 0xE000FF)
+				{
+					this.Destroy();
+				}
+			}
 		}
 
 		bool CheckCollisions()
@@ -119,15 +157,20 @@ namespace GXPEngine
 					Goal goal = other as Goal;
 					if (goal.sideColour == "blue")
 					{
+						((MyGame)game).ScoreRed += 1;
+						((MyGame)game).Resetti();
+						((MyGame)game).redBoard.NextFrame();
+					}
+					if (goal.sideColour == "red")
+					{
 						((MyGame)game).ScoreBlue += 1;
 						((MyGame)game).Resetti();
 						((MyGame)game).blueBoard.NextFrame();
 					}
-					if (goal.sideColour == "red")
+
+					if (this.color == 0xE000FF)
 					{
-						((MyGame)game).ScoreRed += 1;
-						((MyGame)game).Resetti();
-						((MyGame)game).redBoard.NextFrame();
+						this.Destroy();
 					}
 				}
 			}

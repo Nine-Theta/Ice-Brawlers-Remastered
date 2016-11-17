@@ -75,16 +75,16 @@ namespace GXPEngine
 			SpeedX *= Friction;
 			SpeedY *= Friction;
 
-			Console.WriteLine(IsHittingWall());
+			//Console.WriteLine(IsHittingWall());
 
 			foreach (GameObject other in GetCollisions())
 			{
 				if (other is Player)
 				{
 					Player player = other as Player;
-					player.Impulse(player.SpeedX + this.SpeedX, player.SpeedY + this.SpeedY);
-					//player.x -= player.SpeedX + this.SpeedX;
-					player.y -= player.SpeedY + this.SpeedY;
+					//player.Impulse(player.SpeedX, player.SpeedY);
+					//player.x -= player.SpeedX*2;
+					//player.y -= player.SpeedY*2;
 
 					//this.x -= this.SpeedX;
 					//this.y -= this.SpeedY;

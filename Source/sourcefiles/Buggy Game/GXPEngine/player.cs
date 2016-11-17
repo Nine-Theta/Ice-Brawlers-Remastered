@@ -1,6 +1,0 @@
-﻿namespace GXPEngine
-{
-	class player
-	{
-	}
-}

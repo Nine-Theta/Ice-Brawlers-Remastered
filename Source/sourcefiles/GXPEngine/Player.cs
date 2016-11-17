@@ -6,16 +6,20 @@ namespace GXPEngine
 	public class Player : Sprite
 	{
 		public float SpeedX, SpeedY;
-		float SpeedMultiplier = 0.4f;
+		float SpeedMultiplierX = 0.4f;
+		float SpeedMultiplierY = 0.4f;
 		float Friction = 0.97f;
 		float speedLimit = 12.0f;
+		string colour;
+		//bool hittingGoal = false;
 		public bool InversedControls = false;
 		public float StartX, StartY;
+		Random puckRange = new Random();
 
 
 		int left, right, up, down;
 
-		public Player(int rLeft, int rRight, int rUp, int rDown) : base("colors.png")
+		public Player(int rLeft, int rRight, int rUp, int rDown, string rColour) : base("colors.png")
 		{
 			SetOrigin(width / 2, height / 2);
 
@@ -23,6 +27,22 @@ namespace GXPEngine
 			this.right = rRight;
 			this.up = rUp;
 			this.down = rDown;
+
+			colour = rColour;
+
+			Sprite reflection = new Sprite("colors.png");
+			this.AddChild(reflection);
+			reflection.SetOrigin(width / 2, height / 2);
+			if (colour == "blue"){
+				reflection.color = 0x4040FF;
+			}
+			if (colour == "red"){
+				reflection.color = 0xFF4040;
+			}
+			reflection.scaleY = -0.75f;
+			reflection.alpha = 0.25f;
+			reflection.SetXY(0, 56);
+
 		}
 
 		public void Reset()
@@ -42,23 +62,23 @@ namespace GXPEngine
 			if (InversedControls == false)
 			{
 				if (Input.GetKey(left))
-				{ SpeedX -= SpeedMultiplier; }
+				{ SpeedX -= SpeedMultiplierX; }
 				if (Input.GetKey(right))
-				{ SpeedX += SpeedMultiplier; }
+				{ SpeedX += SpeedMultiplierX; }
 				if (Input.GetKey(up))
-				{ SpeedY -= SpeedMultiplier; }
+				{ SpeedY -= SpeedMultiplierY; }
 				if (Input.GetKey(down))
-				{ SpeedY += SpeedMultiplier; }
+				{ SpeedY += SpeedMultiplierY; }
 			}
 			else {
 				if (Input.GetKey(right))
-				{ SpeedX -= SpeedMultiplier; }
+				{ SpeedX -= SpeedMultiplierX; }
 				if (Input.GetKey(left))
-				{ SpeedX += SpeedMultiplier; }
+				{ SpeedX += SpeedMultiplierX; }
 				if (Input.GetKey(down))
-				{ SpeedY -= SpeedMultiplier; }
+				{ SpeedY -= SpeedMultiplierY; }
 				if (Input.GetKey(up))
-				{ SpeedY += SpeedMultiplier; }
+				{ SpeedY += SpeedMultiplierY; }
 			}
 
 			if (this.x - width / 2 <= 0){
@@ -103,16 +123,20 @@ namespace GXPEngine
 				SpeedY = 0.0f;
 			}
 
-			this.SpeedMultiplier = 0.4f;
+			this.SpeedMultiplierX = 0.4f;
+			this.SpeedMultiplierY = 0.4f;
+			Friction = 0.97f;
 
 			foreach (GameObject other in GetCollisions())
 			{
 				if (other is Puck)
 				{
+					int _puckRange = puckRange.Next(-2, 2);
+
 					Puck puck = other as Puck;
 					puck.Impulse(this.SpeedX - this.Friction, this.SpeedY - this.Friction);
-					puck.x += this.SpeedX;
-					puck.y += this.SpeedY;
+					puck.x += this.SpeedX + _puckRange;
+					puck.y += this.SpeedY + _puckRange;
 				}
 
 				if (other is Player)
@@ -121,6 +145,8 @@ namespace GXPEngine
 					player.Impulse(this.SpeedX, this.SpeedY);
 					player.x += this.SpeedX;
 					player.y += this.SpeedY;
+					this.SpeedMultiplierX *= -0.0f;
+					this.SpeedMultiplierY *= -0.0f;
 					//this.x -= SpeedX;
 					//this.y -= SpeedY;
 					//this.Impulse(-player.SpeedX, -player.SpeedY);
@@ -129,11 +155,14 @@ namespace GXPEngine
 				if (other is Goal)
 				{
 					Goal goal = other as Goal;
-					this.SpeedX /= 5.0f;
-					this.SpeedY /= 5.0f;
-					goal.Impulse(this.SpeedX, this.SpeedY);
-					goal.x += this.SpeedX * 1.1f;
-					goal.y += this.SpeedY * 1.1f;
+					this.SpeedX *= -1.25f;
+					this.SpeedY *= -1.25f;
+					this.SpeedMultiplierX *= -0.0f;
+					this.SpeedMultiplierY *= -0.0f;
+					this.Friction = 0.8f;
+					//goal.Impulse(this.SpeedX, this.SpeedY);
+					//goal.x += this.SpeedX * 1.1f;
+					//goal.y += this.SpeedY * 1.1f;
 
 
 					//this.Impulse(-(this.SpeedX*1.1f), -(this.SpeedY*1.1f));
