@@ -13,7 +13,7 @@ namespace GXPEngine
 			scale = 0.5f;
 			SetOrigin(width / 2, height / 2);
 
-			//if (rColour == 0x505050)
+			if (rColour == 0x505050)
 			{
 				((MyGame)game).puckReflection = new Sprite("circle.png");
 				((MyGame)game).AddChildAt(((MyGame)game).puckReflection, 1);
