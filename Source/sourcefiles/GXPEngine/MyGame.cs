@@ -86,6 +86,8 @@ public class MyGame : Game //MyGame is a Game
 		blueGoal.SetXY(1050, 450);
 		redGoal.Reset();
 		redGoal.SetXY(150, 450);
+		player1.InversedControls = false;
+		player2.InversedControls = false;
 	}
 
 	//update game here
@@ -110,18 +112,19 @@ public class MyGame : Game //MyGame is a Game
 		}
 
 		if (Input.GetKeyDown(Key.TWO)){
+			if (player1.InversedControls == false)
+			{
+				player1.InversedControls = true;
+			}
+			else {
+				player1.InversedControls = false;
+			}
+
 			if (player2.InversedControls == false){
 				player2.InversedControls = true;
 			}
 			else{
 				player2.InversedControls = false;
-			}
-
-			if (player1.InversedControls == false){
-				player1.InversedControls = true;
-			}
-			else{
-				player1.InversedControls = false;
 			}
 		}
 
