@@ -5,9 +5,33 @@ namespace GXPEngine
 {
 	public class ScoreBoard : AnimationSprite
 	{
-		public ScoreBoard() : base("numbers.png", 10, 1)
+		string numberColour = "null";
+
+		public ScoreBoard(string rColour) : base("numbers.png", 10, 1)
 		{
 			SetOrigin(width / 2, height / 2);
+			numberColour = rColour;
+
 		}
+
+		//disable collision (for scenery)
+		protected override Core.Collider createCollider()
+		{
+			return null;//base.createCollider();
+		}
+
+		void Update()
+		{
+			if (numberColour == "blue")
+			{
+
+			}
+
+			if (numberColour == "red")
+			{
+
+			}
+		}
+
 	}
 }
