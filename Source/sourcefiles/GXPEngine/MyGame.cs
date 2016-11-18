@@ -109,15 +109,19 @@ public class MyGame : Game //MyGame is a Game
 			extraPuck.SetXY(game.width / 2, game.height / 2);
 		}
 
-		if (Input.GetKeyDown(Key.TWO))
-		{
-			if (player2.InversedControls == false)
-			{
+		if (Input.GetKeyDown(Key.TWO)){
+			if (player2.InversedControls == false){
 				player2.InversedControls = true;
 			}
-			else
-			{
+			else{
 				player2.InversedControls = false;
+			}
+
+			if (player1.InversedControls == false){
+				player1.InversedControls = true;
+			}
+			else{
+				player1.InversedControls = false;
 			}
 		}
 
