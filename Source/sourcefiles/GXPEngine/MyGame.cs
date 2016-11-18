@@ -22,34 +22,37 @@ public class MyGame : Game //MyGame is a Game
 	Random Rand = new Random();
 
 	//initialize game here
-	public MyGame() : base(1440, 1080, false)
+	public MyGame() : base(1600, 944, false)
 	{
 		//LevelLoader loader = new LevelLoader();
 		//AddChild(loader);
 
 		background = new Sprite("background.png");
 		AddChild(background);
-		background.scale = 1.8f;
+		background.scaleX = game.width / 800.0f;
+		background.scaleY = game.height / 600.0f;
 
 		player1 = new Player(Key.LEFT, Key.RIGHT, Key.UP, Key.DOWN, "blue");
 		AddChildAt(player1, 2);
 		player1.color = 0x4040FF;
-		player1.SetXY(1200, game.height/2);
+		player1.scale = 1.5f;
+		player1.SetXY(game.width -250, game.height/2);
 
 		player2 = new Player(Key.A, Key.D, Key.W, Key.S, "red");
 		AddChild(player2);
 		player2.color = 0xFF4040;
-		player2.SetXY(250,game.height / 2);
+		player2.scale = 1.5f;
+		player2.SetXY(250, game.height / 2);
 
 		puck = new Puck(0x505050);
 		AddChildAt(puck, 2);
 		puck.color = 0x505050;
-		puck.SetXY(game.width / 2, 100);
-		puck.Impulse(0.0f, 8.0f);
+		puck.SetXY(game.width / 2, 1);
+		puck.Impulse(0.0f, 10.0f);
 
 		blueGoal = new Goal("blue");
 		AddChild(blueGoal);
-		blueGoal.SetXY(1300, game.height / 2);
+		blueGoal.SetXY(game.width -150, game.height / 2);
 		blueGoal.scaleX = 0.5f;
 		blueGoal.scaleY = 3.0f;
 
@@ -62,7 +65,7 @@ public class MyGame : Game //MyGame is a Game
 		blueBoard = new ScoreBoard("blue");
 		AddChild(blueBoard);
 		blueBoard.color = 0x0000F0;
-		blueBoard.SetXY(1300, 50);
+		blueBoard.SetXY(game.width -150, 50);
 
 		redBoard = new ScoreBoard("red");
 		AddChild(redBoard);
@@ -79,15 +82,17 @@ public class MyGame : Game //MyGame is a Game
 			extraPuck = null;
 		}
 		player1.Reset();
-		player1.SetXY(950, 450);
+		player1.SetXY(game.width - 250, game.height / 2);
 		player2.Reset();
-		player2.SetXY(250, 450);
+		player2.SetXY(250, game.height / 2);
 		blueGoal.Reset();
-		blueGoal.SetXY(1050, 450);
+		blueGoal.SetXY(game.width - 150, game.height / 2);
 		redGoal.Reset();
-		redGoal.SetXY(150, 450);
+		redGoal.SetXY(140, game.height / 2);
 		player1.InversedControls = false;
 		player2.InversedControls = false;
+		background.scaleX = game.width / 800.0f;
+		background.scaleY = game.height / 600.0f;
 	}
 
 	//update game here
