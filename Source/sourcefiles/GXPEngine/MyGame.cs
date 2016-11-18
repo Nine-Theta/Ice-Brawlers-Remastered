@@ -7,8 +7,7 @@ public class MyGame : Game //MyGame is a Game
 	public int ScoreRed;
 	public int ScoreBlue;
 
-	//float bob;
-	Player player1;
+	Player player1;
 	Player player2;
 	Goal blueGoal;
 	Goal redGoal;
@@ -23,7 +22,7 @@ public class MyGame : Game //MyGame is a Game
 	Random Rand = new Random();
 
 	//initialize game here
-	public MyGame () : base(1200, 900, false)
+	public MyGame() : base(1200, 900, false)
 	{
 		//LevelLoader loader = new LevelLoader();
 		//AddChild(loader);
@@ -33,7 +32,7 @@ public class MyGame : Game //MyGame is a Game
 		background.scale = 1.5f;
 
 		player1 = new Player(Key.LEFT, Key.RIGHT, Key.UP, Key.DOWN, "blue");
-		AddChildAt(player1,2);
+		AddChildAt(player1, 2);
 		player1.color = 0x4040FF;
 		player1.SetXY(950, 450);
 
@@ -74,6 +73,11 @@ public class MyGame : Game //MyGame is a Game
 	public void Resetti()
 	{
 		puck.Reset();
+		while (extraPuck != null)
+		{
+			extraPuck.Reset();
+			extraPuck = null;
+		}
 		player1.Reset();
 		player1.SetXY(950, 450);
 		player2.Reset();
@@ -83,9 +87,9 @@ public class MyGame : Game //MyGame is a Game
 		redGoal.Reset();
 		redGoal.SetXY(150, 450);
 	}
-	
+
 	//update game here
-	void Update ()
+	void Update()
 	{
 		if (puckReflection != null)
 		{
@@ -102,7 +106,7 @@ public class MyGame : Game //MyGame is a Game
 			extraPuck = new Puck(0xE000FF);
 			AddChild(extraPuck);
 			extraPuck.color = 0xE000FF;
-			extraPuck.SetXY(game.width / 2, game.height/2);
+			extraPuck.SetXY(game.width / 2, game.height / 2);
 		}
 
 		if (Input.GetKeyDown(Key.TWO))
@@ -120,14 +124,12 @@ public class MyGame : Game //MyGame is a Game
 		if (Input.GetKeyDown(Key.R))
 		{
 			Resetti();
-			if (extraPuck != null)
-			{ extraPuck.Destroy(); }
 		}
-		//Console.WriteLine(bob);
+
 	}
-	
+
 	//system starts here
-	static void Main() 
+	static void Main()
 	{
 		new MyGame().Start();
 

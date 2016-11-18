@@ -131,12 +131,12 @@ namespace GXPEngine
 			{
 				if (other is Puck)
 				{
-					int _puckRange = puckRange.Next(-2, 2);
+					//int _puckRange = puckRange.Next(-2, 2);
 
 					Puck puck = other as Puck;
 					puck.Impulse(this.SpeedX - this.Friction, this.SpeedY - this.Friction);
-					puck.x += this.SpeedX + _puckRange;
-					puck.y += this.SpeedY + _puckRange;
+					puck.x += this.SpeedX;
+					puck.y += this.SpeedY;
 				}
 
 				if (other is Player)

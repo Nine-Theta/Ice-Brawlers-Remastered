@@ -6,10 +6,10 @@
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.Workbench ActiveDocument="GXPEngine\Puck.cs">
     <Files>
-      <File FileName="GXPEngine\MyGame.cs" Line="10" Column="4" />
+      <File FileName="GXPEngine\MyGame.cs" Line="11" Column="2" />
       <File FileName="GXPEngine\LevelLoader.cs" Line="99" Column="94" />
-      <File FileName="GXPEngine\Player.cs" Line="39" Column="4" />
-      <File FileName="GXPEngine\Puck.cs" Line="19" Column="65" />
+      <File FileName="GXPEngine\Player.cs" Line="139" Column="27" />
+      <File FileName="GXPEngine\Puck.cs" Line="23" Column="5" />
       <File FileName="GXPEngine\Goal.cs" Line="85" Column="8" />
       <File FileName="GXPEngine\ScoreBoard.cs" Line="33" Column="5" />
     </Files>

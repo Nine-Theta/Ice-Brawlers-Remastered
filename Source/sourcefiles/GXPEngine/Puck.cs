@@ -37,10 +37,17 @@ namespace GXPEngine
 
 		public void Reset()
 		{
-			SpeedX = 0.0f;
-			SpeedY = 0.0f;
-			SetXY(game.width / 2, 100);
-			Impulse(0.0f, 7.0f);
+			if (this.color == 0xE000FF)
+			{
+				this.Destroy();
+			}
+			else {
+				SpeedX = 0.0f;
+				SpeedY = 0.0f;
+				SetXY(game.width / 2, 100);
+				Impulse(0.0f, 7.0f);
+			}
+
 		}
 
 		public void Impulse(float ImpulseX, float ImpulseY)
