@@ -22,47 +22,47 @@ public class MyGame : Game //MyGame is a Game
 	Random Rand = new Random();
 
 	//initialize game here
-	public MyGame() : base(1200, 900, false)
+	public MyGame() : base(1440, 1080, false)
 	{
 		//LevelLoader loader = new LevelLoader();
 		//AddChild(loader);
 
 		background = new Sprite("background.png");
 		AddChild(background);
-		background.scale = 1.5f;
+		background.scale = 1.8f;
 
 		player1 = new Player(Key.LEFT, Key.RIGHT, Key.UP, Key.DOWN, "blue");
 		AddChildAt(player1, 2);
 		player1.color = 0x4040FF;
-		player1.SetXY(950, 450);
+		player1.SetXY(1200, game.height/2);
 
 		player2 = new Player(Key.A, Key.D, Key.W, Key.S, "red");
 		AddChild(player2);
 		player2.color = 0xFF4040;
-		player2.SetXY(250, 450);
+		player2.SetXY(250,game.height / 2);
 
 		puck = new Puck(0x505050);
 		AddChildAt(puck, 2);
 		puck.color = 0x505050;
 		puck.SetXY(game.width / 2, 100);
-		puck.Impulse(0.0f, 7.0f);
+		puck.Impulse(0.0f, 8.0f);
 
 		blueGoal = new Goal("blue");
 		AddChild(blueGoal);
-		blueGoal.SetXY(1050, 450);
+		blueGoal.SetXY(1300, game.height / 2);
 		blueGoal.scaleX = 0.5f;
 		blueGoal.scaleY = 3.0f;
 
 		redGoal = new Goal("red");
 		AddChild(redGoal);
-		redGoal.SetXY(150, 450);
+		redGoal.SetXY(140, game.height / 2);
 		redGoal.scaleX = 0.5f;
 		redGoal.scaleY = 3.0f;
 
 		blueBoard = new ScoreBoard("blue");
 		AddChild(blueBoard);
 		blueBoard.color = 0x0000F0;
-		blueBoard.SetXY(1100, 50);
+		blueBoard.SetXY(1300, 50);
 
 		redBoard = new ScoreBoard("red");
 		AddChild(redBoard);
