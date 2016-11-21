@@ -87,7 +87,7 @@ namespace GXPEngine
 			if (this.x + width/2 >= game.width){
 				SpeedX = -1.0f -Mathf.Abs(SpeedX/2.0f);
 			}
-			if (this.y -height/2 <= 0){
+			if (this.y -height/2 <= 0 + (game.height * 0.16f)){
 				SpeedY = 1.0f + Mathf.Abs(SpeedY/2.0f);
 			}
 			if (this.y + height/2 >= game.height){

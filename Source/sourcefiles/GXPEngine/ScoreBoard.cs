@@ -7,7 +7,7 @@ namespace GXPEngine
 	{
 		string numberColour = "null";
 
-		public ScoreBoard(string rColour) : base("01_UI_Scoreboard_Numbers.png", 11, 2)
+		public ScoreBoard(string rColour) : base("Score_Numbers_New.png", 11, 1)
 		{
 			SetOrigin(width / 2, height / 2);
 			numberColour = rColour;

@@ -15,11 +15,7 @@ namespace GXPEngine
 
 			if (rColour == 0x505050)
 			{
-				((MyGame)game).puckReflection = new Sprite("circle.png");
-				((MyGame)game).AddChildAt(((MyGame)game).puckReflection, 1);
-				((MyGame)game).puckReflection.scale = 0.55f;
-				((MyGame)game).puckReflection.alpha = 0.25f;
-				((MyGame)game).puckReflection.color = 0x505050;
+				
 			}
 
 			/*if (rColour == 0xE000FF)
@@ -58,24 +54,28 @@ namespace GXPEngine
 
 		void Update()
 		{
-			if (this.x - width / 2 < 0){
+			if (this.x - width / 2 < 0)
+			{
 				SpeedX = Mathf.Abs(SpeedX);
 			}
-			if (this.x + width / 2 > game.width){
+			if (this.x + width / 2 > game.width)
+			{
 				SpeedX = -Mathf.Abs(SpeedX);
 			}
-			if (this.y - height / 2 < 0){
+			if (this.y - height / 2 < 0 + (game.height * 0.16f))
+			{
 				SpeedY = Mathf.Abs(SpeedY);
 			}
-			if (this.y + height / 2 > game.height){
+			if (this.y + height / 2 > game.height)
+			{
 				SpeedY = -Mathf.Abs(SpeedY);
 			}
 
-			if (this.x - width / 2 < 0-game.width)
+			if (this.x - width / 2 < 0 - game.width)
 			{
 				this.Destroy();
 			}
-			if (this.x + width / 2 > game.width*2)
+			if (this.x + width / 2 > game.width * 2)
 			{
 				this.Destroy();
 			}
@@ -83,19 +83,21 @@ namespace GXPEngine
 			{
 				this.Destroy();
 			}
-			if (this.y + height / 2 > game.height*2)
+			if (this.y + height / 2 > game.height * 2)
 			{
 				this.Destroy();
 			}
 
 			x += SpeedX;
-			if (CheckCollisions()){
+			if (CheckCollisions())
+			{
 				x -= SpeedX;
 				SpeedX *= -1;
 			}
 
 			y += SpeedY;
-			if (CheckCollisions()){
+			if (CheckCollisions())
+			{
 				y -= SpeedY;
 				SpeedY *= -1;
 			}
@@ -166,13 +168,13 @@ namespace GXPEngine
 					{
 						((MyGame)game).ScoreRed += 1;
 						((MyGame)game).Resetti();
-						((MyGame)game).redBoard.NextFrame();
+						((MyGame)game).loader.redCounter.NextFrame();
 					}
 					if (goal.sideColour == "red")
 					{
 						((MyGame)game).ScoreBlue += 1;
 						((MyGame)game).Resetti();
-						((MyGame)game).blueBoard.NextFrame();
+						((MyGame)game).loader.blueCounter.NextFrame();
 					}
 
 					if (this.color == 0xE000FF)
