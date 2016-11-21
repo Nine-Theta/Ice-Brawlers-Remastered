@@ -16,7 +16,9 @@ namespace GXPEngine
 		Sprite scoreBoard;
 		public Sprite puckReflection;
 		public ScoreBoard blueCounter;
+		public ScoreBoard blueCounter2;
 		public ScoreBoard redCounter;
+		public ScoreBoard redCounter2;
 
 		public float objectScaleX;
 		public float objectScaleY;
@@ -31,7 +33,7 @@ namespace GXPEngine
 				 "//In case you mess up this file, you can just delete it, and it will be reset upon restarting the game." ,
 				 "//" ,
 				 "0,0,0,0,0,0,0,0,0,0,0,0,8,0,0,0,0,0,0,0,0,0,0,0,0,0",
-				 "0,0,0,0,0,0,0,0,0,0,7,0,0,0,6,0,0,0,0,0,0,0,0,0,0,0",
+				 "0,0,0,0,0,0,0,0,0,0,7,0,0,0,0,0,6,0,0,0,0,0,0,0,0,0",
 				 "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
 				 "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
 				 "0,0,0,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0", //top border
@@ -41,8 +43,8 @@ namespace GXPEngine
 				 "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
 				 "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
 				 "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
-				 "0,5,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,4,0",
 				 "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
+				 "0,0,5,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,4,0,0",
 				 "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
 				 "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
 				 "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
@@ -56,6 +58,12 @@ namespace GXPEngine
 			objectScaleX = rScaleX / 1.5f;
 			objectScaleY = rScaleY / 1.5f;
 
+
+			((MyGame)game).background = new Sprite("background.png");
+			AddChildAt(((MyGame)game).background, 0);
+			((MyGame)game).background.SetXY(0, game.height * 0.16f);
+			((MyGame)game).background.scaleX = rScaleX;
+			((MyGame)game).background.scaleY = (game.height * 0.84f) / 600.0f;
 
 			if (!File.Exists("LevelLayout.txt"))
 			{
@@ -75,7 +83,7 @@ namespace GXPEngine
 				while (true)
 				{
 					string line = input.ReadLine();
-					Console.WriteLine("Line read: " + line);
+					//Console.WriteLine("Line read: " + line);
 					if (line == null)
 						break;
 					else if (line.Substring(0, 2) == "//")  // comment
@@ -86,21 +94,21 @@ namespace GXPEngine
 							throw new Exception();
 						for (int i = 0; i < symbols.Length; i++)
 						{
-							Console.Write(symbols[i] + " - ");
+							//Console.Write(symbols[i] + " - ");
 							Level[counter, i] = int.Parse(symbols[i]);
 						}
 						counter++;
-						Console.WriteLine();
+						//Console.WriteLine();
 					}
 
 				}
-				Console.WriteLine("End of file!");
-				Console.WriteLine("Level info:");
+				//Console.WriteLine("End of file!");
+				//Console.WriteLine("Level info:");
 				for (int row = 0; row < HEIGHT; row++)
 				{
 					for (int column = 0; column < WIDTH; column++)
 					{
-						Console.Write(Level[row, column] + ",");
+						//Console.Write(Level[row, column] + ",");
 
 						int tile = Level[row, column];
 
@@ -133,8 +141,8 @@ namespace GXPEngine
 								puck.color = 0x505050;
 								puck.scaleX = objectScaleX / 2.0f;
 								puck.scaleY = objectScaleY / 2.0f;
-								puck.SetXY(column * TILESIZE, row * (TILESIZE * 0.84f));
-								puck.Impulse(0.0f, 5.25f * objectScaleY);
+								puck.SetXY((column * TILESIZE) + TILESIZE/2.0f, row * (TILESIZE * 0.84f));
+								puck.Impulse(0.0f, 6.0f * objectScaleY);
 								break;
 
 							case 4:
@@ -157,31 +165,43 @@ namespace GXPEngine
 								blueCounter = new ScoreBoard("blue");
 								AddChildAt(blueCounter, 10);
 								//blueCounter.color = 0x9090FF;
-								blueCounter.scaleX = objectScaleX / 2.25f;
-								blueCounter.scaleY = objectScaleY / 2.25f;
-								blueCounter.SetXY(column * (TILESIZE * (objectScaleX * 1.066f)), row * (TILESIZE * (objectScaleY * 1.16f)));
+								blueCounter.scaleX = objectScaleX / 1.9f;
+								blueCounter.scaleY = objectScaleY / 1.9f;
+								blueCounter.SetXY((column * (TILESIZE * 0.925f)) + TILESIZE / 2.0f, row * (TILESIZE * 1.55f));
+
+								blueCounter2 = new ScoreBoard("blue2");
+								AddChildAt(blueCounter2, 10);
+								blueCounter2.scaleX = objectScaleX / 1.9f;
+								blueCounter2.scaleY = objectScaleY / 1.9f;
+								blueCounter2.SetXY((column * (TILESIZE * 0.89f)) + TILESIZE / 2.0f, row * (TILESIZE * 1.55f));
 								break;
 
 							case 7:
 								redCounter = new ScoreBoard("red");
 								AddChildAt(redCounter, 10);
 								//redCounter.color = 0xF00000;
-								redCounter.scaleX = objectScaleX / 2.35f;
-								redCounter.scaleY = objectScaleY / 2.25f;
-								redCounter.SetXY(column * (TILESIZE * (objectScaleX * 1.116f)), row * (TILESIZE * (objectScaleY * 1.16f)));
+								redCounter.scaleX = objectScaleX / 1.9f;
+								redCounter.scaleY = objectScaleY / 1.9f;
+								redCounter.SetXY((column * (TILESIZE * 0.979f)) + TILESIZE / 2.0f, row * (TILESIZE * 1.55f));
+
+								redCounter2 = new ScoreBoard("red2");
+								AddChildAt(redCounter2, 10);
+								redCounter2.scaleX = objectScaleX / 1.9f;
+								redCounter2.scaleY = objectScaleY / 1.9f;
+								redCounter2.SetXY((column * (TILESIZE * 0.9229f)) + TILESIZE / 2.0f, row * (TILESIZE * 1.55f));
 								break;
 
 							case 8:
 								scoreBoard = new Sprite("Scoreboard.png");
 								scoreBoard.SetOrigin(scoreBoard.width / 2, 0);
 								AddChildAt(scoreBoard, 2);
-								scoreBoard.scaleX = objectScaleX / 4.0f;
-								scoreBoard.scaleY = objectScaleY / 4.0f;
-								scoreBoard.SetXY(column * (TILESIZE * 1.07f), row * TILESIZE);
+								scoreBoard.scaleX = objectScaleX / 3.0f;
+								scoreBoard.scaleY = objectScaleY / 3.0f;
+								scoreBoard.SetXY((column * TILESIZE)+ TILESIZE / 2.0f, row * TILESIZE);
 								break;
-
+								
 							default:
-								Console.Write("Something Else");
+								Console.Write("Something Else: {0}", Level[row, column]);
 								break;
 						}
 					}
@@ -193,9 +213,8 @@ namespace GXPEngine
 				{
 					puckReflection = new Sprite("circle.png");
 					puck.AddChildAt(puckReflection, 1);
-					puckReflection.scale = 1.0f;
+					puckReflection.scale = 1.1f;
 					puckReflection.alpha = 0.25f;
-					puckReflection.SetXY(-10.0f, -10.0f);
 					puckReflection.color = 0x505050;
 				}
 			}
@@ -211,8 +230,7 @@ namespace GXPEngine
 			int[,] Level = new int[HEIGHT, WIDTH];
 			int counter = 0;
 
-			while (true)
-			{
+			while (true){
 				string line = input.ReadLine();
 				if (line == null)
 					break;
@@ -228,13 +246,10 @@ namespace GXPEngine
 					counter++;
 				}
 			}
-			for (int row = 0; row < HEIGHT; row++)
-			{
-				for (int column = 0; column < WIDTH; column++)
-				{
+			for (int row = 0; row < HEIGHT; row++){
+				for (int column = 0; column < WIDTH; column++){
 					int tile = Level[row, column];
-					switch (tile)
-					{
+					switch (tile){
 						case 0:
 							break;
 						case 1:
@@ -250,8 +265,8 @@ namespace GXPEngine
 						case 3:
 							puck.scaleX = objectScaleX / 2.0f;
 							puck.scaleY = objectScaleY / 2.0f;
-							puck.SetXY(column * TILESIZE, row * (TILESIZE * 0.84f));
-							puck.Impulse(0.0f, 5.25f * objectScaleY);
+							puck.SetXY(((column + ((((MyGame)game).ScoreRed - ((MyGame)game).ScoreBlue) * 0.5f)) * TILESIZE) + TILESIZE / 2.0f, row * (TILESIZE * 0.84f));
+							puck.Impulse(0.0f, 6.0f * objectScaleY);
 							break;
 						case 4:
 							blueGoal.SetXY(column * TILESIZE, row * (TILESIZE * 0.84f));
@@ -264,19 +279,19 @@ namespace GXPEngine
 							redGoal.scaleY = objectScaleY;
 							break;
 						case 6:
-							blueCounter.scaleX = objectScaleX / 2.25f;
-							blueCounter.scaleY = objectScaleY / 2.25f;
-							blueCounter.SetXY(column * (TILESIZE * (objectScaleX * 1.066f)), row * (TILESIZE * (objectScaleY * 1.16f)));
+							blueCounter.scaleX = objectScaleX / 1.9f;
+							blueCounter.scaleY = objectScaleY / 1.9f;
+							blueCounter.SetXY((column * (TILESIZE * 0.925f)) + TILESIZE / 2.0f, row * (TILESIZE * 1.55f));
 							break;
 						case 7:
-							redCounter.scaleX = objectScaleX / 2.35f;
-							redCounter.scaleY = objectScaleY / 2.25f;
-							redCounter.SetXY(column * (TILESIZE * (objectScaleX * 1.116f)), row * (TILESIZE * (objectScaleY * 1.16f)));
+							redCounter.scaleX = objectScaleX / 1.9f;
+							redCounter.scaleY = objectScaleY / 1.9f;
+							redCounter.SetXY((column * (TILESIZE * 0.979f)) + TILESIZE / 2.0f, row * (TILESIZE * 1.55f));
 							break;
 						case 8:
-							scoreBoard.scaleX = objectScaleX / 4.0f;
-							scoreBoard.scaleY = objectScaleY / 4.0f;
-							scoreBoard.SetXY(column * (TILESIZE * 1.07f), row * TILESIZE);
+							scoreBoard.scaleX = objectScaleX / 3.0f;
+							scoreBoard.scaleY = objectScaleY / 3.0f;
+							scoreBoard.SetXY((column * TILESIZE)+ TILESIZE / 2.0f, row * TILESIZE);
 							break;
 						default:
 							Console.Write("Something Else");
@@ -300,7 +315,7 @@ namespace GXPEngine
 		{
 			if (puckReflection != null)
 			{
-				//puckReflection.SetXY(puck.x + 93.0f, puck.y + 39.0f);
+				puckReflection.SetXY(-20.0f, -20.0f);
 			}
 
 			/*if (extraPuckReflection != null && parent != null)

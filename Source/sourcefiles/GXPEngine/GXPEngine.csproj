@@ -65,6 +65,7 @@
     <Compile Include="LevelLoader.cs" />
     <Compile Include="Goal.cs" />
     <Compile Include="ScoreBoard.cs" />
+    <Compile Include="StartMenu.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="GXPEngine\" />
