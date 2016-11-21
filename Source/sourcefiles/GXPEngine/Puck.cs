@@ -40,8 +40,6 @@ namespace GXPEngine
 			else {
 				SpeedX = 0.0f;
 				SpeedY = 0.0f;
-				SetXY(game.width / 2, 1.0f);
-				Impulse(0.0f, 10.0f);
 			}
 
 		}

@@ -65,14 +65,14 @@ namespace GXPEngine
 
 			if (File.Exists("LevelLayout.txt"))
 			{
-			//FileStream file = new FileStream("LevelLayout.txt", FileMode.Open, FileAccess.Read);
-			StreamReader input = new StreamReader("LevelLayout.txt");
+				//FileStream file = new FileStream("LevelLayout.txt", FileMode.Open, FileAccess.Read);
+				StreamReader input = new StreamReader("LevelLayout.txt");
 
-			int[,] Level = new int[HEIGHT, WIDTH];
-			int counter = 0;
+				int[,] Level = new int[HEIGHT, WIDTH];
+				int counter = 0;
 
 
-			while (true)
+				while (true)
 				{
 					string line = input.ReadLine();
 					Console.WriteLine("Line read: " + line);
@@ -100,7 +100,7 @@ namespace GXPEngine
 				{
 					for (int column = 0; column < WIDTH; column++)
 					{
-						Console.Write(Level[row,column] + ",");
+						Console.Write(Level[row, column] + ",");
 
 						int tile = Level[row, column];
 
@@ -134,7 +134,7 @@ namespace GXPEngine
 								puck.scaleX = objectScaleX / 2.0f;
 								puck.scaleY = objectScaleY / 2.0f;
 								puck.SetXY(column * TILESIZE, row * (TILESIZE * 0.84f));
-								puck.Impulse(0.0f, 10.0f);
+								puck.Impulse(0.0f, 5.25f * objectScaleY);
 								break;
 
 							case 4:
@@ -155,11 +155,11 @@ namespace GXPEngine
 
 							case 6:
 								blueCounter = new ScoreBoard("blue");
-								AddChildAt(blueCounter,10);
+								AddChildAt(blueCounter, 10);
 								//blueCounter.color = 0x9090FF;
 								blueCounter.scaleX = objectScaleX / 2.25f;
 								blueCounter.scaleY = objectScaleY / 2.25f;
-								blueCounter.SetXY(column * (TILESIZE * (objectScaleX * 1.066f)) , row * (TILESIZE * (objectScaleY * 1.16f)));
+								blueCounter.SetXY(column * (TILESIZE * (objectScaleX * 1.066f)), row * (TILESIZE * (objectScaleY * 1.16f)));
 								break;
 
 							case 7:
@@ -168,7 +168,7 @@ namespace GXPEngine
 								//redCounter.color = 0xF00000;
 								redCounter.scaleX = objectScaleX / 2.35f;
 								redCounter.scaleY = objectScaleY / 2.25f;
-								redCounter.SetXY(column * (TILESIZE * (objectScaleX * 1.116f)), row * (TILESIZE * (objectScaleY* 1.16f)));
+								redCounter.SetXY(column * (TILESIZE * (objectScaleX * 1.116f)), row * (TILESIZE * (objectScaleY * 1.16f)));
 								break;
 
 							case 8:
@@ -203,20 +203,95 @@ namespace GXPEngine
 
 		public void LevelReset()
 		{
+			if (puck != null)
+				puck.Reset();
+
+			StreamReader input = new StreamReader("LevelLayout.txt");
+
+			int[,] Level = new int[HEIGHT, WIDTH];
+			int counter = 0;
+
+			while (true)
+			{
+				string line = input.ReadLine();
+				if (line == null)
+					break;
+				else if (line.Substring(0, 2) == "//")  // comment
+					continue;
+				else {// assume it is a string of integers separated by commas
+					string[] symbols = line.Split(new char[] { ',' });
+					if (symbols.Length != WIDTH || counter >= HEIGHT)
+						throw new Exception();
+					for (int i = 0; i < symbols.Length; i++){
+						Level[counter, i] = int.Parse(symbols[i]);
+					}
+					counter++;
+				}
+			}
+			for (int row = 0; row < HEIGHT; row++)
+			{
+				for (int column = 0; column < WIDTH; column++)
+				{
+					int tile = Level[row, column];
+					switch (tile)
+					{
+						case 0:
+							break;
+						case 1:
+							player1.scaleX = objectScaleX;
+							player1.scaleY = objectScaleY;
+							player1.SetXY(column * TILESIZE, row * (TILESIZE * 0.84f));
+							break;
+						case 2:
+							player2.scaleX = objectScaleX;
+							player2.scaleY = objectScaleY;
+							player2.SetXY(column * TILESIZE, row * (TILESIZE * 0.84f));
+							break;
+						case 3:
+							puck.scaleX = objectScaleX / 2.0f;
+							puck.scaleY = objectScaleY / 2.0f;
+							puck.SetXY(column * TILESIZE, row * (TILESIZE * 0.84f));
+							puck.Impulse(0.0f, 5.25f * objectScaleY);
+							break;
+						case 4:
+							blueGoal.SetXY(column * TILESIZE, row * (TILESIZE * 0.84f));
+							blueGoal.scaleX = objectScaleX;
+							blueGoal.scaleY = objectScaleY;
+							break;
+						case 5:
+							redGoal.SetXY(column * TILESIZE, row * (TILESIZE * 0.84f));
+							redGoal.scaleX = objectScaleX;
+							redGoal.scaleY = objectScaleY;
+							break;
+						case 6:
+							blueCounter.scaleX = objectScaleX / 2.25f;
+							blueCounter.scaleY = objectScaleY / 2.25f;
+							blueCounter.SetXY(column * (TILESIZE * (objectScaleX * 1.066f)), row * (TILESIZE * (objectScaleY * 1.16f)));
+							break;
+						case 7:
+							redCounter.scaleX = objectScaleX / 2.35f;
+							redCounter.scaleY = objectScaleY / 2.25f;
+							redCounter.SetXY(column * (TILESIZE * (objectScaleX * 1.116f)), row * (TILESIZE * (objectScaleY * 1.16f)));
+							break;
+						case 8:
+							scoreBoard.scaleX = objectScaleX / 4.0f;
+							scoreBoard.scaleY = objectScaleY / 4.0f;
+							scoreBoard.SetXY(column * (TILESIZE * 1.07f), row * TILESIZE);
+							break;
+						default:
+							Console.Write("Something Else");
+							break;
+					}
+				}
+			}
 			while (extraPuck != null){
 				extraPuck.Reset();
 				extraPuck = null;
 			}
-			if (puck != null)
-				puck.Reset();
 			player1.Reset();
-			player1.SetXY(game.width - 250, game.height / 2);
 			player2.Reset();
-			player2.SetXY(250, game.height / 2);
 			blueGoal.Reset();
-			blueGoal.SetXY(game.width - 150, game.height / 2);
 			redGoal.Reset();
-			redGoal.SetXY(140, game.height / 2);
 			player1.InversedControls = false;
 			player2.InversedControls = false;
 		}

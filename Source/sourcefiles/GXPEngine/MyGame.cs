@@ -33,8 +33,8 @@ public class MyGame : Game //MyGame is a Game
 
 	public void Resetti()
 	{
-		background.scaleX = mainScaleX;
-		background.scaleY = mainScaleY;
+		background.scaleX = game.width / 800.0f;
+		background.scaleY = (game.height * 0.84f) / 600.0f;
 
 		loader.LevelReset();
 	}
