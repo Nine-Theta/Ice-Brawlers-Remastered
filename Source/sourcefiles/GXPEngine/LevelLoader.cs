@@ -13,6 +13,7 @@ namespace GXPEngine
 		public Goal blueGoal;
 		public Goal redGoal;
 		public Puck puck;
+		int timeGet;
 		Puck extraPuck;
 		Sprite scoreBoard;
 		public Sprite puckReflection;
@@ -60,7 +61,7 @@ namespace GXPEngine
 			objectScaleY = rScaleY / 1.5f;
 
 
-			((MyGame)game).background = new Sprite("testbackground.png");
+			((MyGame)game).background = new Sprite("Improved_testbackground.png");
 			AddChildAt(((MyGame)game).background, 0);
 			((MyGame)game).background.SetXY(0, -64);
 			((MyGame)game).background.scaleX = rScaleX / 2.0f;
@@ -325,6 +326,16 @@ namespace GXPEngine
 				extraPuckReflection.SetXY(parent.x - 9.5f, parent.y - 9.5f);
 			}*/
 
+			if (timeGet < (Time.now / 1000))
+			{
+				player1.SpeedMultiplierX = 0.4f;
+				player1.SpeedMultiplierY = 0.4f;
+				player1.speedLimit = 12.0f;
+				timeGet = 0;
+				Console.WriteLine(timeGet);
+			}
+
+
 			if (Input.GetKeyDown(Key.ONE))
 			{
 				extraPuck = new Puck(0xE000FF);
@@ -367,12 +378,10 @@ namespace GXPEngine
 
 			if (Input.GetKeyDown(Key.FOUR))
 			{
-				for (int timeGet = (Time.now / 1000) + 2; timeGet == (Time.now / 1000) + 5;)
-				{
-					player1.SpeedMultiplierX *= 2.0f;
-					player1.SpeedMultiplierY *= 2.0f;
-					player1.speedLimit *= 2.0f;
-				}
+				timeGet = (Time.now / 1000) + 5;
+				player1.SpeedMultiplierX *= 1.5f;
+				player1.SpeedMultiplierY *= 1.5f;
+				player1.speedLimit *= 2.0f;
 			}
 		
 
