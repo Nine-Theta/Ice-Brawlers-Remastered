@@ -9,9 +9,11 @@ namespace GXPEngine
 
 		public Player player1;
 		public Player player2;
+		AntiGoal notGoal;
 		public Goal blueGoal;
 		public Goal redGoal;
 		public Puck puck;
+		int timeGet;
 		Puck extraPuck;
 		Sprite scoreBoard;
 		public Sprite puckReflection;
@@ -43,8 +45,8 @@ namespace GXPEngine
 				 "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
 				 "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
 				 "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
-				 "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
 				 "0,0,5,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,4,0,0",
+				 "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
 				 "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
 				 "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
 				 "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
@@ -59,11 +61,11 @@ namespace GXPEngine
 			objectScaleY = rScaleY / 1.5f;
 
 
-			((MyGame)game).background = new Sprite("background.png");
+			((MyGame)game).background = new Sprite("Improved_testbackground.png");
 			AddChildAt(((MyGame)game).background, 0);
-			((MyGame)game).background.SetXY(0, game.height * 0.16f);
-			((MyGame)game).background.scaleX = rScaleX;
-			((MyGame)game).background.scaleY = (game.height * 0.84f) / 600.0f;
+			((MyGame)game).background.SetXY(0, -64);
+			((MyGame)game).background.scaleX = rScaleX / 2.0f;
+			((MyGame)game).background.scaleY = rScaleY / 2.0f;
 
 			if (!File.Exists("LevelLayout.txt"))
 			{
@@ -123,7 +125,7 @@ namespace GXPEngine
 								player1.color = 0x4040FF;
 								player1.scaleX = objectScaleX;
 								player1.scaleY = objectScaleY;
-								player1.SetXY(column * TILESIZE, row * (TILESIZE * 0.84f));
+								player1.SetXY(column * TILESIZE, row * (TILESIZE ));
 								break;
 
 							case 2:
@@ -132,33 +134,33 @@ namespace GXPEngine
 								player2.color = 0xFF4040;
 								player2.scaleX = objectScaleX;
 								player2.scaleY = objectScaleY;
-								player2.SetXY(column * TILESIZE, row * (TILESIZE * 0.84f));
+								player2.SetXY(column * TILESIZE, row * (TILESIZE ));
 								break;
 
 							case 3:
 								puck = new Puck(0x505050);
 								AddChildAt(puck, 2);
 								puck.color = 0x505050;
-								puck.scaleX = objectScaleX / 2.0f;
-								puck.scaleY = objectScaleY / 2.0f;
-								puck.SetXY((column * TILESIZE) + TILESIZE/2.0f, row * (TILESIZE * 0.84f));
+								puck.scaleX = objectScaleX / 1.5f;
+								puck.scaleY = objectScaleY / 1.5f;
+								puck.SetXY((column * TILESIZE) + TILESIZE/2.0f, row * (TILESIZE));
 								puck.Impulse(0.0f, 6.0f * objectScaleY);
 								break;
 
 							case 4:
 								blueGoal = new Goal("blue");
 								AddChild(blueGoal);
-								blueGoal.SetXY(column * TILESIZE, row * (TILESIZE * 0.84f));
-								blueGoal.scaleX = objectScaleX;
+								blueGoal.SetXY(column * TILESIZE, row * (TILESIZE));
+								blueGoal.scaleX = objectScaleX / 2.0f;
 								blueGoal.scaleY = objectScaleY;
 								break;
 
 							case 5:
 								redGoal = new Goal("red");
 								AddChild(redGoal);
-								redGoal.SetXY(column * TILESIZE, row * (TILESIZE * 0.84f));
-								redGoal.scaleX = objectScaleX;
-								redGoal.scaleY = objectScaleY;
+								redGoal.SetXY(column * TILESIZE, row * (TILESIZE));
+								redGoal.scaleX = objectScaleX / 2.0f;
+								redGoal.scaleY = objectScaleY ;
 								break;
 
 							case 6:
@@ -211,9 +213,10 @@ namespace GXPEngine
 
 				if (puck != null)
 				{
-					puckReflection = new Sprite("circle.png");
+					puckReflection = new Sprite("testpuck.png");
 					puck.AddChildAt(puckReflection, 1);
 					puckReflection.scale = 1.1f;
+					puckReflection.SetXY(0, 100);
 					puckReflection.alpha = 0.25f;
 					puckReflection.color = 0x505050;
 				}
@@ -255,27 +258,27 @@ namespace GXPEngine
 						case 1:
 							player1.scaleX = objectScaleX;
 							player1.scaleY = objectScaleY;
-							player1.SetXY(column * TILESIZE, row * (TILESIZE * 0.84f));
+							player1.SetXY(column * TILESIZE, row * (TILESIZE ));
 							break;
 						case 2:
 							player2.scaleX = objectScaleX;
 							player2.scaleY = objectScaleY;
-							player2.SetXY(column * TILESIZE, row * (TILESIZE * 0.84f));
+							player2.SetXY(column * TILESIZE, row * (TILESIZE ));
 							break;
 						case 3:
-							puck.scaleX = objectScaleX / 2.0f;
-							puck.scaleY = objectScaleY / 2.0f;
+							puck.scaleX = objectScaleX / 1.5f;
+							puck.scaleY = objectScaleY / 1.5f;
 							puck.SetXY(((column + ((((MyGame)game).ScoreRed - ((MyGame)game).ScoreBlue) * 0.5f)) * TILESIZE) + TILESIZE / 2.0f, row * (TILESIZE * 0.84f));
 							puck.Impulse(0.0f, 6.0f * objectScaleY);
 							break;
 						case 4:
-							blueGoal.SetXY(column * TILESIZE, row * (TILESIZE * 0.84f));
-							blueGoal.scaleX = objectScaleX;
+							blueGoal.SetXY(column * TILESIZE, row * TILESIZE );
+							blueGoal.scaleX = objectScaleX / 2.0f;
 							blueGoal.scaleY = objectScaleY;
 							break;
 						case 5:
-							redGoal.SetXY(column * TILESIZE, row * (TILESIZE * 0.84f));
-							redGoal.scaleX = objectScaleX;
+							redGoal.SetXY(column * TILESIZE, row * (TILESIZE ));
+							redGoal.scaleX = objectScaleX / 2.0f;
 							redGoal.scaleY = objectScaleY;
 							break;
 						case 6:
@@ -315,13 +318,23 @@ namespace GXPEngine
 		{
 			if (puckReflection != null)
 			{
-				puckReflection.SetXY(-20.0f, -20.0f);
+				puckReflection.SetXY(-16.0f, -16.0f);
 			}
 
 			/*if (extraPuckReflection != null && parent != null)
 			{
 				extraPuckReflection.SetXY(parent.x - 9.5f, parent.y - 9.5f);
 			}*/
+
+			if (timeGet < (Time.now / 1000))
+			{
+				player1.SpeedMultiplierX = 0.4f;
+				player1.SpeedMultiplierY = 0.4f;
+				player1.speedLimit = 12.0f;
+				timeGet = 0;
+				Console.WriteLine(timeGet);
+			}
+
 
 			if (Input.GetKeyDown(Key.ONE))
 			{
@@ -349,6 +362,30 @@ namespace GXPEngine
 					player2.InversedControls = false;
 				}
 			}
+
+			if (Input.GetKeyDown(Key.THREE))
+			{
+				if (player1.ForceMultiplier != 20.0f)
+					player1.ForceMultiplier = 20.0f;
+				else
+					player1.ForceMultiplier = 1.0f;
+
+				if (player2.ForceMultiplier != 20.0f)
+					player2.ForceMultiplier = 20.0f;
+				else
+					player2.ForceMultiplier = 1.0f;
+			}
+
+			if (Input.GetKeyDown(Key.FOUR))
+			{
+				timeGet = (Time.now / 1000) + 5;
+				player1.SpeedMultiplierX *= 1.5f;
+				player1.SpeedMultiplierY *= 1.5f;
+				player1.speedLimit *= 2.0f;
+			}
+		
+
+
 		}
 
 

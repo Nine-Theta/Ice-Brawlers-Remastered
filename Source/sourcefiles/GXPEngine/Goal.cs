@@ -15,16 +15,29 @@ namespace GXPEngine
 		{
 			SetOrigin(width / 2, height / 2);
 			alpha = 0.5f;
+			scaleY = 0.5f;
+
+
 
 			if (rSide == "blue")
 			{
 				this.color = 0x4040FF;
 				this.sideColour = "blue";
+				AntiGoal notBlue = new AntiGoal();
+				AddChild(notBlue);
+				notBlue.SetXY(20, 0);
+				notBlue.scaleX = 1.5f;
+				notBlue.scaleY = 1.5f;
 			}
 			if (rSide == "red")
 			{
 				this.color = 0xFF4040;
 				this.sideColour = "red";
+				AntiGoal notRed = new AntiGoal();
+				AddChild(notRed);
+				notRed.SetXY(-20, 0);
+				notRed.scaleX = 1.5f;
+				notRed.scaleY = 1.5f;
 			}
 		}
 
@@ -75,7 +88,7 @@ namespace GXPEngine
 			SpeedX *= Friction;
 			SpeedY *= Friction;
 
-			//Console.WriteLine(IsHittingWall());
+			//Console.WriteLine(this.y);
 
 			foreach (GameObject other in GetCollisions())
 			{

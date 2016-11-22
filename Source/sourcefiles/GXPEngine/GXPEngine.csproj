@@ -66,6 +66,7 @@
     <Compile Include="Goal.cs" />
     <Compile Include="ScoreBoard.cs" />
     <Compile Include="StartMenu.cs" />
+    <Compile Include="AntiGoal.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="GXPEngine\" />

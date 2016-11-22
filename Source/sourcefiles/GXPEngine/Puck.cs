@@ -8,9 +8,8 @@ namespace GXPEngine
 		float Friction = 0.981f;
 		float speedLimit = 20.0f;
 
-		public Puck(int rColour) : base("circle.png")
+		public Puck(int rColour) : base("testpuck.png")
 		{
-			scale = 0.5f;
 			SetOrigin(width / 2, height / 2);
 
 			if (rColour == 0x505050)
@@ -60,7 +59,7 @@ namespace GXPEngine
 			{
 				SpeedX = -Mathf.Abs(SpeedX);
 			}
-			if (this.y - height / 2 < 0 + (game.height * 0.16f))
+			if (this.y - height / 2 < 0 + (game.height * 0.225f))
 			{
 				SpeedY = Mathf.Abs(SpeedY);
 			}
@@ -159,6 +158,16 @@ namespace GXPEngine
 					puck.x += this.SpeedX;
 					puck.y += this.SpeedY;
 				}
+
+				if (other is AntiGoal)
+				{
+					AntiGoal notGoal = other as AntiGoal;
+					hit = true;
+					this.Impulse(this.SpeedX - Friction, this.SpeedY - Friction);
+					this.x += this.SpeedX - Friction;
+					this.y += this.SpeedY - Friction;
+				}
+
 				if (other is Goal)
 				{
 					Goal goal = other as Goal;
