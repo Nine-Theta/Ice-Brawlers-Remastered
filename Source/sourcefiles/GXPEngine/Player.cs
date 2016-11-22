@@ -124,8 +124,10 @@ namespace GXPEngine
 				SpeedY = 0.0f;
 			}
 
-			//this.SpeedMultiplierX = 0.4f;
-			//this.SpeedMultiplierY = 0.4f;
+			if (this.SpeedMultiplierX < 0.4f)
+			this.SpeedMultiplierX = 0.4f;
+			if (this.SpeedMultiplierY < 0.4f)
+			this.SpeedMultiplierY = 0.4f;
 			Friction = 0.97f;
 			this.touchingGoal = false;
 
@@ -149,10 +151,10 @@ namespace GXPEngine
 				if (other is AntiGoal)
 				{
 					AntiGoal notGoal = other as AntiGoal;
-					this.SpeedX -= SpeedX * 2.0f;
-					this.SpeedY -= SpeedY * 2.0f;
-					//this.SpeedMultiplierX = -0.1f;
-					//this.SpeedMultiplierY = -0.1f;
+					this.SpeedX -= SpeedX * 2.5f;
+					this.SpeedY -= SpeedY * 2.5f;
+					this.SpeedMultiplierX = -0.1f;
+					this.SpeedMultiplierY = -0.1f;
 					this.Friction = 0.8f;
 					this.touchingGoal = true;
 					//goal.Impulse(this.SpeedX, this.SpeedY);
@@ -175,16 +177,16 @@ namespace GXPEngine
 						player.Impulse(this.SpeedX, this.SpeedY);
 						player.x += this.SpeedX;
 						player.y += this.SpeedY;
-						//this.SpeedMultiplierX *= -0.1f;
-						//this.SpeedMultiplierY *= -0.1f;
+						this.SpeedMultiplierX *= -0.1f;
+						this.SpeedMultiplierY *= -0.1f;
 						this.SpeedX -= SpeedX * 2.5f;
 						this.SpeedY -= SpeedY * 2.5f;
 						//this.Impulse(-player.SpeedX, -player.SpeedY);
 					}
 					else {
 						player.Impulse(-this.SpeedX * 0.5f, -this.SpeedY* 0.5f);
-						//this.SpeedMultiplierX = 0.1f;
-						//this.SpeedMultiplierY = 0.1f;
+						this.SpeedMultiplierX *= 0.25f;
+						this.SpeedMultiplierY *= 0.25f;
 						this.SpeedX -= SpeedX * 25.5f;
 						this.SpeedY -= SpeedY * 25.5f;
 						this.Impulse(-this.SpeedX * 43, -this.SpeedY*44);

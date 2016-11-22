@@ -21,6 +21,8 @@ namespace GXPEngine
 		public ScoreBoard blueCounter2;
 		public ScoreBoard redCounter;
 		public ScoreBoard redCounter2;
+		AnimationSprite redSupporter;
+		AnimationSprite blueSupporter;
 
 		public float objectScaleX;
 		public float objectScaleY;
@@ -34,9 +36,9 @@ namespace GXPEngine
 				 "//You may edit file below to change the layout of the main level." ,
 				 "//In case you mess up this file, you can just delete it, and it will be reset upon restarting the game." ,
 				 "//" ,
-				 "0,0,0,0,0,0,0,0,0,0,0,0,8,0,0,0,0,0,0,0,0,0,0,0,0,0",
-				 "0,0,0,0,0,0,0,0,0,0,7,0,0,0,0,0,6,0,0,0,0,0,0,0,0,0",
-				 "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
+				 "9,9,9,9,9,9,9,9,9,9,9,9,8,10,10,10,10,10,10,10,10,10,10,10,10,10",
+				 "9,9,9,9,9,9,9,9,9,9,7,9,9,10,10,10,6,10,10,10,10,10,10,10,10,10",
+				 "9,9,9,9,9,9,9,9,9,9,9,9,9,10,10,10,10,10,10,10,10,10,10,10,10,10",
 				 "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
 				 "0,0,0,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0", //top border
 				 "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
@@ -45,7 +47,7 @@ namespace GXPEngine
 				 "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
 				 "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
 				 "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
-				 "0,0,5,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,4,0,0",
+				 "0,0,0,5,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,4,0,0,0",
 				 "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
 				 "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
 				 "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
@@ -61,7 +63,7 @@ namespace GXPEngine
 			objectScaleY = rScaleY / 1.5f;
 
 
-			((MyGame)game).background = new Sprite("Improved_testbackground.png");
+			((MyGame)game).background = new Sprite("Improvedest_testbackground.png");
 			AddChildAt(((MyGame)game).background, 0);
 			((MyGame)game).background.SetXY(0, -64);
 			((MyGame)game).background.scaleX = rScaleX / 2.0f;
@@ -121,7 +123,7 @@ namespace GXPEngine
 
 							case 1:
 								player1 = new Player(Key.LEFT, Key.RIGHT, Key.UP, Key.DOWN, "blue");
-								AddChildAt(player1, 2);
+								AddChildAt(player1, 1000);
 								player1.color = 0x4040FF;
 								player1.scaleX = objectScaleX;
 								player1.scaleY = objectScaleY;
@@ -139,7 +141,7 @@ namespace GXPEngine
 
 							case 3:
 								puck = new Puck(0x505050);
-								AddChildAt(puck, 2);
+								AddChildAt(puck, 1000);
 								puck.color = 0x505050;
 								puck.scaleX = objectScaleX / 1.5f;
 								puck.scaleY = objectScaleY / 1.5f;
@@ -165,45 +167,81 @@ namespace GXPEngine
 
 							case 6:
 								blueCounter = new ScoreBoard("blue");
-								AddChildAt(blueCounter, 10);
+								AddChildAt(blueCounter, 100);
 								//blueCounter.color = 0x9090FF;
 								blueCounter.scaleX = objectScaleX / 1.9f;
 								blueCounter.scaleY = objectScaleY / 1.9f;
 								blueCounter.SetXY((column * (TILESIZE * 0.925f)) + TILESIZE / 2.0f, row * (TILESIZE * 1.55f));
 
 								blueCounter2 = new ScoreBoard("blue2");
-								AddChildAt(blueCounter2, 10);
+								AddChildAt(blueCounter2, 100);
 								blueCounter2.scaleX = objectScaleX / 1.9f;
 								blueCounter2.scaleY = objectScaleY / 1.9f;
 								blueCounter2.SetXY((column * (TILESIZE * 0.89f)) + TILESIZE / 2.0f, row * (TILESIZE * 1.55f));
+
+								blueSupporter = new AnimationSprite("Audience_Sprite.png", 3, 1);
+								AddChildAt(blueSupporter, 0);
+								blueSupporter.currentFrame = 1;
+								blueSupporter.scaleX = objectScaleX / 1.25f;
+								blueSupporter.scaleY = objectScaleY / 1.25f;
+								blueSupporter.SetXY((column * TILESIZE), row * TILESIZE);
 								break;
 
 							case 7:
 								redCounter = new ScoreBoard("red");
-								AddChildAt(redCounter, 10);
+								AddChildAt(redCounter, 100);
 								//redCounter.color = 0xF00000;
 								redCounter.scaleX = objectScaleX / 1.9f;
 								redCounter.scaleY = objectScaleY / 1.9f;
 								redCounter.SetXY((column * (TILESIZE * 0.979f)) + TILESIZE / 2.0f, row * (TILESIZE * 1.55f));
 
 								redCounter2 = new ScoreBoard("red2");
-								AddChildAt(redCounter2, 10);
+								AddChildAt(redCounter2, 100);
 								redCounter2.scaleX = objectScaleX / 1.9f;
 								redCounter2.scaleY = objectScaleY / 1.9f;
 								redCounter2.SetXY((column * (TILESIZE * 0.9229f)) + TILESIZE / 2.0f, row * (TILESIZE * 1.55f));
+
+								redSupporter = new AnimationSprite("Audience_Sprite.png", 3, 1);
+								AddChildAt(redSupporter, 0);
+								redSupporter.scaleX = objectScaleX / 1.25f;
+								redSupporter.scaleY = objectScaleY / 1.25f;
+								redSupporter.SetXY((column * TILESIZE), row * TILESIZE);
 								break;
 
 							case 8:
 								scoreBoard = new Sprite("Scoreboard.png");
 								scoreBoard.SetOrigin(scoreBoard.width / 2, 0);
-								AddChildAt(scoreBoard, 2);
+								AddChildAt(scoreBoard, 3);
 								scoreBoard.scaleX = objectScaleX / 3.0f;
 								scoreBoard.scaleY = objectScaleY / 3.0f;
 								scoreBoard.SetXY((column * TILESIZE)+ TILESIZE / 2.0f, row * TILESIZE);
+
+								redSupporter = new AnimationSprite("Audience_Sprite.png", 3, 1);
+								AddChildAt(redSupporter, 0);
+								redSupporter.scaleX = objectScaleX / 1.25f;
+								redSupporter.scaleY = objectScaleY / 1.25f;
+								redSupporter.SetXY((column * TILESIZE), row * TILESIZE);
+								break;
+
+							case 9:
+								redSupporter = new AnimationSprite("Audience_Sprite.png", 3, 1);
+								AddChildAt(redSupporter,0);
+								redSupporter.scaleX = objectScaleX / 1.25f;
+								redSupporter.scaleY = objectScaleY / 1.25f;
+								redSupporter.SetXY((column * TILESIZE), row * TILESIZE);
+								break;
+
+							case 10:
+								blueSupporter = new AnimationSprite("Audience_Sprite.png", 3, 1);
+								AddChildAt(blueSupporter, 0);
+								blueSupporter.currentFrame = 1;
+								blueSupporter.scaleX = objectScaleX / 1.25f;
+								blueSupporter.scaleY = objectScaleY / 1.25f;
+								blueSupporter.SetXY((column * TILESIZE), row * TILESIZE);
 								break;
 								
 							default:
-								Console.Write("Something Else: {0}", Level[row, column]);
+								Console.WriteLine("Something Else: {0}", Level[row, column]);
 								break;
 						}
 					}
@@ -332,7 +370,10 @@ namespace GXPEngine
 				player1.SpeedMultiplierY = 0.4f;
 				player1.speedLimit = 12.0f;
 				timeGet = 0;
-				Console.WriteLine(timeGet);
+				player2.SpeedMultiplierX = 0.4f;
+				player2.SpeedMultiplierY = 0.4f;
+				player2.speedLimit = 12.0f;
+				//Console.WriteLine(timeGet);
 			}
 
 
@@ -376,12 +417,15 @@ namespace GXPEngine
 					player2.ForceMultiplier = 1.0f;
 			}
 
-			if (Input.GetKeyDown(Key.FOUR))
+			if (Input.GetKeyDown(Key.FOUR) && player1.SpeedMultiplierX < 0.5f)
 			{
-				timeGet = (Time.now / 1000) + 5;
+				timeGet = (Time.now / 1000) + 3;
 				player1.SpeedMultiplierX *= 1.5f;
 				player1.SpeedMultiplierY *= 1.5f;
 				player1.speedLimit *= 2.0f;
+				player2.SpeedMultiplierX *= 1.5f;
+				player2.SpeedMultiplierY *= 1.5f;
+				player2.speedLimit *= 2.0f;
 			}
 		
 

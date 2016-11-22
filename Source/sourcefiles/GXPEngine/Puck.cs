@@ -5,7 +5,7 @@ namespace GXPEngine
 	{
 		float SpeedX;
 		float SpeedY;
-		float Friction = 0.981f;
+		float Friction = 0.985f;
 		float speedLimit = 20.0f;
 
 		public Puck(int rColour) : base("testpuck.png")
@@ -163,9 +163,9 @@ namespace GXPEngine
 				{
 					AntiGoal notGoal = other as AntiGoal;
 					hit = true;
-					this.Impulse(this.SpeedX - Friction, this.SpeedY - Friction);
-					this.x += this.SpeedX - Friction;
-					this.y += this.SpeedY - Friction;
+					this.Impulse(-this.SpeedX * Friction, -this.SpeedY * Friction);
+					//this.x += this.SpeedX - Friction;
+					//this.y += this.SpeedY - Friction;
 				}
 
 				if (other is Goal)
