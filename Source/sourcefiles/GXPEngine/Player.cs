@@ -6,10 +6,11 @@ namespace GXPEngine
 	public class Player : Sprite
 	{
 		public float SpeedX, SpeedY;
-		float SpeedMultiplierX = 0.4f;
-		float SpeedMultiplierY = 0.4f;
+		public float SpeedMultiplierX = 0.4f;
+		public float SpeedMultiplierY = 0.4f;
 		float Friction = 0.9f;
-		float speedLimit = 12.0f;
+		public float speedLimit = 12.0f;
+		public float ForceMultiplier = 1.0f;
 		string colour;
 		//bool hittingGoal = false;
 		public bool touchingGoal = false;
@@ -128,6 +129,7 @@ namespace GXPEngine
 			Friction = 0.97f;
 			this.touchingGoal = false;
 
+			Console.WriteLine(ForceMultiplier);
 
 			foreach (GameObject other in GetCollisions())
 			{
@@ -136,18 +138,19 @@ namespace GXPEngine
 					//int _puckRange = puckRange.Next(-2, 2);
 
 					Puck puck = other as Puck;
-					puck.Impulse(this.SpeedX - this.Friction, this.SpeedY - this.Friction);
+					puck.Impulse((this.SpeedX * ForceMultiplier) - this.Friction, (this.SpeedY * ForceMultiplier) - this.Friction);
 					puck.x += this.SpeedX;
 					puck.y += this.SpeedY;
+					this.ForceMultiplier = 1.0f;
 					//puck.SpeedMultiplierX *= -0.1f;
 					//.SpeedMultiplierY *= -0.1f;
 				}
 
-				if (other is Goal)
+				if (other is AntiGoal)
 				{
-					Goal goal = other as Goal;
+					AntiGoal notGoal = other as AntiGoal;
 					this.SpeedX -= SpeedX * 2.0f;
-					this.SpeedY -= SpeedY;
+					this.SpeedY -= SpeedY * 2.0f;
 					this.SpeedMultiplierX = -0.1f;
 					this.SpeedMultiplierY = -0.1f;
 					this.Friction = 0.8f;
@@ -174,16 +177,16 @@ namespace GXPEngine
 						player.y += this.SpeedY;
 						this.SpeedMultiplierX *= -0.1f;
 						this.SpeedMultiplierY *= -0.1f;
-						this.SpeedX -= SpeedX * 1.5f;
-						this.SpeedX -= SpeedY * 1.5f;
+						this.SpeedX -= SpeedX * 2.5f;
+						this.SpeedY -= SpeedY * 2.5f;
 						//this.Impulse(-player.SpeedX, -player.SpeedY);
 					}
 					else {
 						player.Impulse(-this.SpeedX * 0.5f, -this.SpeedY* 0.5f);
 						this.SpeedMultiplierX = 0.1f;
 						this.SpeedMultiplierY = 0.1f;
-						this.SpeedX -= SpeedX * 2.5f;
-						this.SpeedX -= SpeedY * 2.5f;
+						this.SpeedX -= SpeedX * 25.5f;
+						this.SpeedY -= SpeedY * 25.5f;
 						this.Impulse(-this.SpeedX * 43, -this.SpeedY*44);
 					}
 
