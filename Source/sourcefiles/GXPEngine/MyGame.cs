@@ -37,7 +37,7 @@ public class MyGame : Game //MyGame is a Game
 
 
 		//Music
-		Sound backgroundMusic = new Sound("PixPolka.wav", true, true);
+		Sound backgroundMusic = new Sound("PixPolka.ogg", true, true);
 		backgroundMusic.Play();
 
 		alarmSound = new Sound("buzzernew.wav", false, false);
