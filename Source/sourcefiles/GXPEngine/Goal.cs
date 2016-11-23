@@ -28,6 +28,14 @@ namespace GXPEngine
 				notBlue.SetXY(20, 0);
 				notBlue.scaleX = 1.5f;
 				notBlue.scaleY = 1.5f;
+				AnimationSprite blueGoalSprite = new AnimationSprite("testgoals.png", 2,1);
+				blueGoalSprite.SetOrigin(blueGoalSprite.width / 2, blueGoalSprite.height / 2);
+				notBlue.AddChild(blueGoalSprite);
+				blueGoalSprite.currentFrame = 1;
+				blueGoalSprite.scaleX = 0.75f;
+				blueGoalSprite.scaleY = 0.55f;
+				blueGoalSprite.x -= 5.0f;
+				blueGoalSprite.y -= 13.0f;
 			}
 			if (rSide == "red")
 			{
@@ -38,6 +46,13 @@ namespace GXPEngine
 				notRed.SetXY(-20, 0);
 				notRed.scaleX = 1.5f;
 				notRed.scaleY = 1.5f;
+				AnimationSprite redGoalSprite = new AnimationSprite("testgoals.png", 2, 1);
+				redGoalSprite.SetOrigin(redGoalSprite.width / 2, redGoalSprite.height / 2);
+				notRed.AddChild(redGoalSprite);
+				redGoalSprite.scaleX = 0.75f;
+				redGoalSprite.scaleY = 0.55f;
+				redGoalSprite.x -= 5.0f;
+				redGoalSprite.y -= 13.0f;
 			}
 		}
 

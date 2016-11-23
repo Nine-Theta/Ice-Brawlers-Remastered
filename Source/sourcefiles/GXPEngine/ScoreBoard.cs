@@ -30,6 +30,7 @@ namespace GXPEngine
 				this.NextFrame();
 			}*/
 
+
 			//Console.WriteLine("{0} {1}", Time.now / 1000, timeGet);
 
 			if (numberColour == "blue"){

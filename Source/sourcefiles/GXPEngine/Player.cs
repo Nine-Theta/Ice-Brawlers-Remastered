@@ -41,7 +41,7 @@ namespace GXPEngine
 				reflection.color = 0xFF4040;
 			}
 			reflection.scaleY = -0.75f;
-			reflection.alpha = 0.25f;
+			reflection.alpha = 0.125f;
 			reflection.SetXY(0, 56);
 
 		}
@@ -54,8 +54,8 @@ namespace GXPEngine
 
 		public void Impulse(float ImpulseX, float ImpulseY)
 		{
-			SpeedX = ImpulseX;
-			SpeedY = ImpulseY;
+			SpeedX += ImpulseX;
+			SpeedY += ImpulseY;
 		}
 
 		void Update()
@@ -82,13 +82,13 @@ namespace GXPEngine
 				{ SpeedY += SpeedMultiplierY; }
 			}
 
-			if (this.x - width / 2 <= 0){
+			if (this.x - width / 2 <= 64.0f -(this.y * 0.083f)){
 				SpeedX = 1.0f + Mathf.Abs(SpeedX / 2.0f);
 			}
-			if (this.x + width/2 >= game.width){
+			if (this.x + width/2 >= game.width - 64.0f + (this.y * 0.083f)){
 				SpeedX = -1.0f -Mathf.Abs(SpeedX/2.0f);
 			}
-			if (this.y -height/2 <= 0 + (game.height * 0.16f)){
+			if (this.y -height/2 <= 0 + (game.height * 0.20f)){
 				SpeedY = 1.0f + Mathf.Abs(SpeedY/2.0f);
 			}
 			if (this.y + height/2 >= game.height){
@@ -151,8 +151,9 @@ namespace GXPEngine
 				if (other is AntiGoal)
 				{
 					AntiGoal notGoal = other as AntiGoal;
-					this.SpeedX -= SpeedX * 2.5f;
-					this.SpeedY -= SpeedY * 2.5f;
+					this.Impulse(this.SpeedX, this.SpeedY);
+					this.SpeedX -= SpeedX * 1.75f;
+					this.SpeedY -= SpeedY * 1.75f;
 					this.SpeedMultiplierX = -0.1f;
 					this.SpeedMultiplierY = -0.1f;
 					this.Friction = 0.8f;
@@ -179,8 +180,8 @@ namespace GXPEngine
 						player.y += this.SpeedY;
 						this.SpeedMultiplierX *= -0.1f;
 						this.SpeedMultiplierY *= -0.1f;
-						this.SpeedX -= SpeedX * 2.5f;
-						this.SpeedY -= SpeedY * 2.5f;
+						this.SpeedX -= SpeedX * 2.11f;
+						this.SpeedY -= SpeedY * 2.11f;
 						//this.Impulse(-player.SpeedX, -player.SpeedY);
 					}
 					else {

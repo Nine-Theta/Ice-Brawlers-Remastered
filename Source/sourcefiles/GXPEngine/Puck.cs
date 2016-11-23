@@ -51,50 +51,40 @@ namespace GXPEngine
 
 		void Update()
 		{
-			if (this.x - width / 2 < 0)
-			{
+			if (this.x - width / 2 < 64.0f - (this.y * 0.083f)){
 				SpeedX = Mathf.Abs(SpeedX);
 			}
-			if (this.x + width / 2 > game.width)
-			{
+			if (this.x + width / 2 > game.width - 64.0f + (this.y * 0.083f)){
 				SpeedX = -Mathf.Abs(SpeedX);
 			}
-			if (this.y - height / 2 < 0 + (game.height * 0.225f))
-			{
+			if (this.y - height / 2 < 0 + (game.height * 0.26f)){
 				SpeedY = Mathf.Abs(SpeedY);
 			}
-			if (this.y + height / 2 > game.height)
-			{
+			if (this.y + height / 2 > game.height){
 				SpeedY = -Mathf.Abs(SpeedY);
 			}
 
-			if (this.x - width / 2 < 0 - game.width)
-			{
+			if (this.x - width / 2 < 0 - game.width){
 				this.Destroy();
 			}
-			if (this.x + width / 2 > game.width * 2)
-			{
+			if (this.x + width / 2 > game.width * 2){
 				this.Destroy();
 			}
-			if (this.y - height / 2 < 0 - game.height)
-			{
+			if (this.y - height / 2 < 0 - game.height){
 				this.Destroy();
 			}
-			if (this.y + height / 2 > game.height * 2)
-			{
+			if (this.y + height / 2 > game.height * 2){
 				this.Destroy();
 			}
 
 			x += SpeedX;
-			if (CheckCollisions())
-			{
+			if (CheckCollisions()){
 				x -= SpeedX;
 				SpeedX *= -1;
 			}
 
 			y += SpeedY;
-			if (CheckCollisions())
-			{
+			if (CheckCollisions()){
 				y -= SpeedY;
 				SpeedY *= -1;
 			}
@@ -163,9 +153,9 @@ namespace GXPEngine
 				{
 					AntiGoal notGoal = other as AntiGoal;
 					hit = true;
-					this.Impulse(-this.SpeedX * Friction, -this.SpeedY * Friction);
-					//this.x += this.SpeedX - Friction;
-					//this.y += this.SpeedY - Friction;
+					this.Impulse(this.SpeedX * 0.99f, this.SpeedY * 0.99f);
+					this.SpeedX -= this.SpeedX * 1.5f;
+					this.SpeedY -= this.SpeedY * 1.5f;
 				}
 
 				if (other is Goal)

@@ -23,6 +23,7 @@ namespace GXPEngine
 		public ScoreBoard redCounter2;
 		AnimationSprite redSupporter;
 		AnimationSprite blueSupporter;
+		Sprite lowerGlass;
 
 		public float objectScaleX;
 		public float objectScaleY;
@@ -39,7 +40,7 @@ namespace GXPEngine
 				 "9,9,9,9,9,9,9,9,9,9,9,9,8,10,10,10,10,10,10,10,10,10,10,10,10,10",
 				 "9,9,9,9,9,9,9,9,9,9,7,9,9,10,10,10,6,10,10,10,10,10,10,10,10,10",
 				 "9,9,9,9,9,9,9,9,9,9,9,9,9,10,10,10,10,10,10,10,10,10,10,10,10,10",
-				 "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
+				 "9,9,9,9,9,9,9,9,9,9,9,9,9,10,10,10,10,10,10,10,10,10,10,10,10,10",
 				 "0,0,0,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0", //top border
 				 "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
 				 "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
@@ -63,12 +64,11 @@ namespace GXPEngine
 			objectScaleY = rScaleY / 1.5f;
 
 
-			((MyGame)game).background = new Sprite("Improvedest_testbackground.png");
-			AddChildAt(((MyGame)game).background, 0);
-			((MyGame)game).background.SetXY(0, -64);
+			((MyGame)game).background = new Sprite("testbackground.png");
+			((MyGame)game).AddChildAt(((MyGame)game).background, 0);
+			((MyGame)game).background.SetXY(0, 0);
 			((MyGame)game).background.scaleX = rScaleX / 2.0f;
 			((MyGame)game).background.scaleY = rScaleY / 2.0f;
-
 			if (!File.Exists("LevelLayout.txt"))
 			{
 				//File.Create("LevelLayout.txt");
@@ -123,7 +123,7 @@ namespace GXPEngine
 
 							case 1:
 								player1 = new Player(Key.LEFT, Key.RIGHT, Key.UP, Key.DOWN, "blue");
-								AddChildAt(player1, 1000);
+								((MyGame)game).AddChildAt(player1, 5199);
 								player1.color = 0x4040FF;
 								player1.scaleX = objectScaleX;
 								player1.scaleY = objectScaleY;
@@ -132,7 +132,7 @@ namespace GXPEngine
 
 							case 2:
 								player2 = new Player(Key.A, Key.D, Key.W, Key.S, "red");
-								AddChild(player2);
+								((MyGame)game).AddChildAt(player2,5199);
 								player2.color = 0xFF4040;
 								player2.scaleX = objectScaleX;
 								player2.scaleY = objectScaleY;
@@ -225,7 +225,7 @@ namespace GXPEngine
 
 							case 9:
 								redSupporter = new AnimationSprite("Audience_Sprite.png", 3, 1);
-								AddChildAt(redSupporter,0);
+								((MyGame)game).AddChildAt(redSupporter,-1);
 								redSupporter.scaleX = objectScaleX / 1.25f;
 								redSupporter.scaleY = objectScaleY / 1.25f;
 								redSupporter.SetXY((column * TILESIZE), row * TILESIZE);
@@ -233,7 +233,7 @@ namespace GXPEngine
 
 							case 10:
 								blueSupporter = new AnimationSprite("Audience_Sprite.png", 3, 1);
-								AddChildAt(blueSupporter, 0);
+								((MyGame)game).AddChildAt(blueSupporter, -1);
 								blueSupporter.currentFrame = 1;
 								blueSupporter.scaleX = objectScaleX / 1.25f;
 								blueSupporter.scaleY = objectScaleY / 1.25f;
@@ -248,6 +248,11 @@ namespace GXPEngine
 					Console.WriteLine();
 				}
 
+				lowerGlass = new Sprite("lowerbarrier.png");
+				((MyGame)game).AddChildAt(lowerGlass, 7299);
+				lowerGlass.SetXY(0, game.height - 36);
+				lowerGlass.scaleX = rScaleX / 2.0f;
+				lowerGlass.scaleY = rScaleY / 2.0f;
 
 				if (puck != null)
 				{
