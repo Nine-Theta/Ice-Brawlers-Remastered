@@ -164,7 +164,7 @@ namespace GXPEngine
 						((MyGame)game).Resetti();
 						((MyGame)game).loader.redCounter.NextFrame();
 						((MyGame)game).scored = true;
-						((MyGame)game).shakeCounter = 4;
+						((MyGame)game).shakeCounter = 5;
 					}
 					if (goal.sideColour == "red")
 					{
@@ -172,7 +172,7 @@ namespace GXPEngine
 						((MyGame)game).Resetti();
 						((MyGame)game).loader.blueCounter.NextFrame();
 						((MyGame)game).scored = true;
-						((MyGame)game).shakeCounter = 4;
+						((MyGame)game).shakeCounter = 5;
 					}
 
 					if (this.color == 0xE000FF)

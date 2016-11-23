@@ -152,17 +152,45 @@ namespace GXPEngine
 							case 4:
 								blueGoal = new Goal("blue");
 								AddChildAt(blueGoal,700);
-								blueGoal.SetXY(column * TILESIZE, ((float)row + 0.5f) * TILESIZE);
+								blueGoal.SetXY((column * TILESIZE), ((float)row + 0.5f) * TILESIZE);
 								blueGoal.scaleX = objectScaleX / 2.0f;
 								blueGoal.scaleY = objectScaleY;
+
+								AntiGoal notBlue = new AntiGoal();
+								AddChild(notBlue);
+								notBlue.SetXY(blueGoal.x + 10, blueGoal.y);
+								notBlue.scaleX = objectScaleX / 1.25f;
+								notBlue.scaleY = objectScaleY * 1.5f;
+
+								AnimationSprite blueGoalSprite = new AnimationSprite("testgoals.png", 2, 1);
+								blueGoalSprite.SetOrigin(blueGoalSprite.width / 2, blueGoalSprite.height / 2);
+								notBlue.AddChild(blueGoalSprite);
+								blueGoalSprite.currentFrame = 1;
+								blueGoalSprite.scaleX = objectScaleX * 0.75f;
+								blueGoalSprite.scaleY = objectScaleY * 0.55f;
+								blueGoalSprite.SetXY( +2.5f, -13.0f);
 								break;
 
 							case 5:
 								redGoal = new Goal("red");
 								AddChildAt(redGoal,800);
-								redGoal.SetXY(column * TILESIZE, ((float)row + 0.5f) * TILESIZE);
+								redGoal.SetXY((column * TILESIZE), ((float)row + 0.5f) * TILESIZE);
 								redGoal.scaleX = objectScaleX / 2.0f;
-								redGoal.scaleY = objectScaleY ;
+								redGoal.scaleY = objectScaleY;
+
+								AntiGoal notRed = new AntiGoal();
+								AddChild(notRed);
+								notRed.SetXY(redGoal.x - 10, redGoal.y);
+								notRed.scaleX = objectScaleX / 1.25f;
+								notRed.scaleY = objectScaleY * 1.5f;
+
+								AnimationSprite redGoalSprite = new AnimationSprite("testgoals.png", 2, 1);
+								redGoalSprite.SetOrigin(redGoalSprite.width / 2, redGoalSprite.height / 2);
+								notRed.AddChild(redGoalSprite);
+								redGoalSprite.currentFrame = 0;
+								redGoalSprite.scaleX = objectScaleX * 0.75f;
+								redGoalSprite.scaleY = objectScaleY * 0.55f;
+								redGoalSprite.SetXY( -2.5f, -13.0f);
 								break;
 
 							case 6:
@@ -211,7 +239,7 @@ namespace GXPEngine
 							case 8:
 								scoreBoard = new Sprite("Scoreboard.png");
 								scoreBoard.SetOrigin(scoreBoard.width / 2, 0);
-								AddChildAt(scoreBoard, 3);
+								AddChildAt(scoreBoard, 39);
 								scoreBoard.scaleX = objectScaleX / 3.0f;
 								scoreBoard.scaleY = objectScaleY / 3.0f;
 								scoreBoard.SetXY((column * TILESIZE)+ TILESIZE / 2.0f, row * TILESIZE);
@@ -258,7 +286,7 @@ namespace GXPEngine
 				{
 					puckReflection = new Sprite("testpuck.png");
 					puck.AddChildAt(puckReflection, 1);
-					puckReflection.scale = 1.1f;
+					puckReflection.scale = 1.0f;
 					puckReflection.SetXY(0, 100);
 					puckReflection.alpha = 0.25f;
 					puckReflection.color = 0x505050;
@@ -362,7 +390,7 @@ namespace GXPEngine
 		{
 			if (puckReflection != null)
 			{
-				puckReflection.SetXY(-16.0f, -16.0f);
+				puckReflection.SetXY(-16.0f, -6.0f);
 			}
 
 			/*if (extraPuckReflection != null && parent != null)
@@ -386,8 +414,11 @@ namespace GXPEngine
 			{
 				extraPuck = new Puck(0xE000FF);
 				AddChild(extraPuck);
+				extraPuck.scaleX = objectScaleX / 1.5f;
+				extraPuck.scaleY = objectScaleY / 1.5f;
 				extraPuck.color = 0xE000FF;
-				extraPuck.SetXY(game.width / 2, game.height / 2);
+				extraPuck.SetXY(puck.x, puck.y + 11.0f);
+
 			}
 
 			if (Input.GetKeyDown(Key.TWO))

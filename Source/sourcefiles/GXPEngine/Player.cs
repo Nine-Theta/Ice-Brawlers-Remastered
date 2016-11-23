@@ -8,7 +8,7 @@ namespace GXPEngine
 		public float SpeedX, SpeedY;
 		public float SpeedMultiplierX = 0.4f;
 		public float SpeedMultiplierY = 0.4f;
-		float Friction = 0.9f;
+		float Friction = 0.8f;
 		public float speedLimit = 12.0f;
 		public float ForceMultiplier = 1.0f;
 		string colour;

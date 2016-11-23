@@ -17,14 +17,14 @@ public class MyGame : Game //MyGame is a Game
 	int timeGet;
 	bool getTime1, getTime2;
 	Random rand = new Random();
-	float shakeAmount = 5.0f;
+	float shakeAmount = 3.0f;
 	int rumble1, rumble2, rumble3, rumble4, rumble5, rumble6;
 
 	public float mainScaleX;
 	public float mainScaleY;
 	//public Sprite extraPuckReflection;
 
-	Random Rand = new Random();
+	Sound alarmSound;
 
 	//initialize game here
 	public MyGame() : base(1200, 900, false)
@@ -34,6 +34,15 @@ public class MyGame : Game //MyGame is a Game
 
 		mainScaleX = game.width / 800.0f;
 		mainScaleY = game.height / 600.0f;
+
+
+		//Music
+		Sound backgroundMusic = new Sound("PixPolka.wav", true, true);
+		backgroundMusic.Play();
+
+		alarmSound = new Sound("buzzernew.wav", false, false);
+
+
 	}
 
 	public void Resetti()
@@ -63,7 +72,7 @@ public class MyGame : Game //MyGame is a Game
 				background.x += shakeAmount * rumble1;
 				background.y += shakeAmount * rumble2;
 				loader.x += shakeAmount * rumble3;
-				loader.y += shakeAmount* rumble4;
+				loader.y += shakeAmount * rumble4;
 				loader.scoreBoard.x += shakeAmount * rumble5;
 				loader.scoreBoard.y += shakeAmount * rumble6;
 				timeGet = (Time.now / 10) + 3;
@@ -113,6 +122,11 @@ public class MyGame : Game //MyGame is a Game
 	{
 		ShakeItUp();
 
+		if (scored == true)
+		{
+			alarmSound.Play();
+			scored = false;
+		}
 
 		//Console.WriteLine(timeGet);
 
