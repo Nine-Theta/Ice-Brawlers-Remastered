@@ -82,10 +82,10 @@ namespace GXPEngine
 				{ SpeedY += SpeedMultiplierY; }
 			}
 
-			if (this.x - width / 2 <= 64.0f -(this.y * 0.083f)){
+			if (this.x - width / 2 <= 64.0f -(this.y * 0.091f)){
 				SpeedX = 1.0f + Mathf.Abs(SpeedX / 2.0f);
 			}
-			if (this.x + width/2 >= game.width - 64.0f + (this.y * 0.083f)){
+			if (this.x + width/2 >= game.width - 64.0f + (this.y * 0.091f)){
 				SpeedX = -1.0f -Mathf.Abs(SpeedX/2.0f);
 			}
 			if (this.y -height/2 <= 0 + (game.height * 0.20f)){
@@ -131,7 +131,7 @@ namespace GXPEngine
 			Friction = 0.97f;
 			this.touchingGoal = false;
 
-			Console.WriteLine(SpeedMultiplierX);
+			//Console.WriteLine(SpeedMultiplierX);
 
 			foreach (GameObject other in GetCollisions())
 			{

@@ -24,10 +24,7 @@ namespace GXPEngine
 				((MyGame)game).extraPuckReflection.scale = 0.55f;
 				((MyGame)game).extraPuckReflection.alpha = 0.25f;
 				((MyGame)game).extraPuckReflection.color = 0xE000FF;
-
 			}*/
-
-
 		}
 
 		public void Reset()
@@ -166,12 +163,16 @@ namespace GXPEngine
 						((MyGame)game).ScoreRed += 1;
 						((MyGame)game).Resetti();
 						((MyGame)game).loader.redCounter.NextFrame();
+						((MyGame)game).scored = true;
+						((MyGame)game).shakeCounter = 4;
 					}
 					if (goal.sideColour == "red")
 					{
 						((MyGame)game).ScoreBlue += 1;
 						((MyGame)game).Resetti();
 						((MyGame)game).loader.blueCounter.NextFrame();
+						((MyGame)game).scored = true;
+						((MyGame)game).shakeCounter = 4;
 					}
 
 					if (this.color == 0xE000FF)
