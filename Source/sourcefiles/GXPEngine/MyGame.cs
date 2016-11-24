@@ -34,7 +34,7 @@ public class MyGame : Game //MyGame is a Game
 	public Sound scoreYell;
 
 	//initialize game here
-	public MyGame() : base(1200, 900, false)
+	public MyGame() : base(1600, 1200, false)
 	{
 		start = new StartMenu();
 		AddChild(start);
@@ -44,7 +44,7 @@ public class MyGame : Game //MyGame is a Game
 
 
 		//Music
-		Sound backgroundMusic = new Sound("china.mp3", true, true);
+		Sound backgroundMusic = new Sound("audience.mp3", true, true);
 		backgroundMusic.Play();
 
 		alarmSound = new Sound("buzzernew.wav", false, false);

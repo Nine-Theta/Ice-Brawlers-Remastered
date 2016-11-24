@@ -11,8 +11,9 @@ namespace GXPEngine
 
 		public StartMenu()
 		{
-			//AddChildAt(background, 0);
-			//background.SetXY(0, 0);
+			background = new Sprite("mainscreen.png");
+			AddChildAt(background, 0);
+			background.SetXY(0, 0);
 
 			menuButtons = new AnimationSprite("MenuButtons.png", 4, 3);
 			menuButtons.SetOrigin(menuButtons.width / 2, menuButtons.height / 2);
@@ -59,6 +60,7 @@ namespace GXPEngine
 				((MyGame)game).loader = new LevelLoader(((MyGame)game).mainScaleX, ((MyGame)game).mainScaleY);
 				((MyGame)game).AddChild(((MyGame)game).loader);
 				MenuLock = true;
+				this.Destroy();
 			}
 		}
 	}
