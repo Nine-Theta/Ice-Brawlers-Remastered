@@ -160,18 +160,20 @@ namespace GXPEngine
 					Goal goal = other as Goal;
 					if (goal.sideColour == "blue")
 					{
+						((MyGame)game).scoreYell.Play();
 						((MyGame)game).ScoreRed += 1;
 						((MyGame)game).Resetti();
 						((MyGame)game).loader.redCounter.NextFrame();
-						((MyGame)game).scored = true;
+						((MyGame)game).scoredRed = true;
 						((MyGame)game).shakeCounter = 5;
 					}
 					if (goal.sideColour == "red")
 					{
+						((MyGame)game).scoreYell.Play();
 						((MyGame)game).ScoreBlue += 1;
 						((MyGame)game).Resetti();
 						((MyGame)game).loader.blueCounter.NextFrame();
-						((MyGame)game).scored = true;
+						((MyGame)game).scoredBlue = true;
 						((MyGame)game).shakeCounter = 5;
 					}
 

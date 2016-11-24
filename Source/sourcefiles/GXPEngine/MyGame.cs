@@ -11,7 +11,8 @@ public class MyGame : Game //MyGame is a Game
 	public LevelLoader loader;
 	public Sprite background;
 
-	public bool scored = false;
+	public bool scoredBlue = false;
+	public bool scoredRed = false;
 	public int shakeCounter = 0;
 
 	int timeGet;
@@ -26,6 +27,12 @@ public class MyGame : Game //MyGame is a Game
 
 	Sound alarmSound;
 
+	public Sound addedPuck;
+	public Sound reverseControls;
+	public Sound boomShot;
+	public Sound goFast;
+	public Sound scoreYell;
+
 	//initialize game here
 	public MyGame() : base(1200, 900, false)
 	{
@@ -37,10 +44,16 @@ public class MyGame : Game //MyGame is a Game
 
 
 		//Music
-		Sound backgroundMusic = new Sound("PixPolka.ogg", true, true);
+		Sound backgroundMusic = new Sound("china.mp3", true, true);
 		backgroundMusic.Play();
 
 		alarmSound = new Sound("buzzernew.wav", false, false);
+
+		reverseControls = new Sound("reversed.mp3", false, false);
+		boomShot = new Sound("powershot.mp3", false, false);
+		goFast = new Sound("speedboost.mp3", false, false);
+
+		scoreYell = new Sound("audience_score.mp3", false, true);
 
 
 	}
@@ -110,7 +123,8 @@ public class MyGame : Game //MyGame is a Game
 				loader.scoreBoard.y += shakeAmount * rumble6;
 				Console.WriteLine("CallCheck 3");
 				getTime2 = false;
-				scored = false;
+				scoredBlue = false;
+				scoredRed = false;
 				shakeCounter -= 1;
 				//timeGet = (Time.now / 1000) + 1;
 			}
@@ -122,10 +136,11 @@ public class MyGame : Game //MyGame is a Game
 	{
 		ShakeItUp();
 
-		if (scored == true)
+		if (scoredBlue == true || scoredRed == true)
 		{
 			alarmSound.Play();
-			scored = false;
+			scoredBlue = false;
+			scoredRed = false;
 		}
 
 		//Console.WriteLine(timeGet);
