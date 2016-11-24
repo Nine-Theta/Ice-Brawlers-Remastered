@@ -11,12 +11,21 @@ namespace GXPEngine
 		float Friction = 0.8f;
 		public float speedLimit = 12.0f;
 		public float ForceMultiplier = 1.0f;
-		string colour;
+		public string colour;
 		//bool hittingGoal = false;
 		public bool touchingGoal = false;
 		public bool InversedControls = false;
+		public bool hasPowerUp = false;
 		public float StartX, StartY;
 		Random puckRange = new Random();
+
+		int timeWaitBlue;
+		int timeWaitRed;
+
+		AnimationSprite playerBlue;
+		AnimationSprite playerRed;
+		AnimationSprite reflectionBlue;
+		AnimationSprite reflectionRed;
 
 		int left, right, up, down;
 
@@ -31,19 +40,37 @@ namespace GXPEngine
 
 			colour = rColour;
 
-			Sprite reflection = new Sprite("colors.png");
-			this.AddChild(reflection);
-			reflection.SetOrigin(width / 2, height / 2);
-			if (colour == "blue"){
-				reflection.color = 0x4040FF;
-			}
-			if (colour == "red"){
-				reflection.color = 0xFF4040;
-			}
-			reflection.scaleY = -0.75f;
-			reflection.alpha = 0.125f;
-			reflection.SetXY(0, 56);
+			playerBlue = new AnimationSprite("BluePlayerAnim.png", 4, 5);
+			playerRed = new AnimationSprite("RedPlayerAnim.png", 4, 5);
+			reflectionBlue = new AnimationSprite("BluePlayerAnim.png", 4, 5);
+			reflectionRed = new AnimationSprite("RedPlayerAnim.png", 4, 5);
 
+			if (colour == "blue")
+			{
+				this.AddChildAt(playerBlue, 999999);
+				playerBlue.SetOrigin(playerBlue.width / 2, playerBlue.height / 2);
+				playerBlue.SetXY(-8, -32);
+
+				this.AddChild(reflectionBlue);
+				reflectionBlue.SetOrigin(reflectionBlue.width / 2, reflectionBlue.height / 2);
+				reflectionBlue.SetXY(-8, 72);
+				reflectionBlue.scaleY = -0.75f;
+				reflectionBlue.alpha = 0.125f;
+			}
+			if (colour == "red")
+			{
+				this.AddChildAt(playerRed, 9999999);
+				playerRed.SetOrigin(playerRed.width / 2, playerRed.height / 2);
+				playerRed.SetXY(-8, -32);
+				playerRed.scaleX = -1.0f;
+
+				this.AddChild(reflectionRed);
+				reflectionRed.SetOrigin(reflectionRed.width / 2, reflectionRed.height / 2);
+				reflectionRed.SetXY(-8, 72);
+				reflectionRed.scaleY = -0.75f;
+				reflectionRed.alpha = 0.125f;
+
+			}
 		}
 
 		public void Reset()
@@ -60,6 +87,7 @@ namespace GXPEngine
 
 		void Update()
 		{
+
 			if (InversedControls == false)
 			{
 				if (Input.GetKey(left))
@@ -82,31 +110,39 @@ namespace GXPEngine
 				{ SpeedY += SpeedMultiplierY; }
 			}
 
-			if (this.x - width / 2 <= 64.0f -(this.y * 0.091f)){
+			if (this.x - width / 2 <= 64.0f - (this.y * 0.091f))
+			{
 				SpeedX = 1.0f + Mathf.Abs(SpeedX / 2.0f);
 			}
-			if (this.x + width/2 >= game.width - 64.0f + (this.y * 0.091f)){
-				SpeedX = -1.0f -Mathf.Abs(SpeedX/2.0f);
+			if (this.x + width / 2 >= game.width - 64.0f + (this.y * 0.091f))
+			{
+				SpeedX = -1.0f - Mathf.Abs(SpeedX / 2.0f);
 			}
-			if (this.y -height/2 <= 0 + (game.height * 0.20f)){
-				SpeedY = 1.0f + Mathf.Abs(SpeedY/2.0f);
+			if (this.y - height / 2 <= 0 + (game.height * 0.20f))
+			{
+				SpeedY = 1.0f + Mathf.Abs(SpeedY / 2.0f);
 			}
-			if (this.y + height/2 >= game.height){
-				SpeedY = -1.0f -Mathf.Abs(SpeedY/2.0f);
+			if (this.y + height / 2 >= game.height)
+			{
+				SpeedY = -1.0f - Mathf.Abs(SpeedY / 2.0f);
 			}
 
-			if (SpeedX > speedLimit){
+			if (SpeedX > speedLimit)
+			{
 				SpeedX = speedLimit;
 			}
-			if (SpeedX < -speedLimit){
+			if (SpeedX < -speedLimit)
+			{
 				SpeedX = -speedLimit;
 			}
 
-			if (SpeedY > speedLimit){
+			if (SpeedY > speedLimit)
+			{
 				SpeedY = speedLimit;
 			}
 
-			if (SpeedY < -speedLimit){
+			if (SpeedY < -speedLimit)
+			{
 				SpeedY = -speedLimit;
 			}
 
@@ -116,18 +152,125 @@ namespace GXPEngine
 			SpeedX *= Friction;
 			SpeedY *= Friction;
 
-			if (SpeedX < 0.1f && SpeedX > -0.1f){
+			if (SpeedX < 0.1f && SpeedX > -0.1f)
+			{
 				SpeedX = 0.0f;
 			}
 
-			if (SpeedY < 0.1f && SpeedY > -0.1f){
+			if (SpeedY < 0.1f && SpeedY > -0.1f)
+			{
 				SpeedY = 0.0f;
 			}
 
+			if (colour == "blue")
+			{
+				if (SpeedX > 3.0f)
+				{
+					if (playerBlue.currentFrame < 11)
+						playerBlue.SetFrame(12);
+					
+					playerBlue.scaleX = -1.0f;
+					reflectionBlue.scaleX = -1.0f;
+					if (timeWaitBlue < Time.now / 10)
+					{
+						playerBlue.NextFrame();
+						timeWaitBlue = (Time.now / 10) + 15;
+						if (playerBlue.currentFrame == 19)
+							playerBlue.currentFrame = 12;
+					}
+				}
+				if (SpeedX < -3.0f || SpeedY > 3.0f || SpeedY < -3.0f)
+					{
+					if (playerBlue.currentFrame < 11)
+						playerBlue.SetFrame(12);
+					
+						playerBlue.scaleX = 1.0f;
+						reflectionBlue.scaleX = 1.0f;
+						if (timeWaitBlue < Time.now / 10)
+						{
+							playerBlue.NextFrame();
+							timeWaitBlue = (Time.now / 10) + 15;
+							if (playerBlue.currentFrame == 19)
+								playerBlue.currentFrame = 12;
+						}
+					}
+				if (SpeedX > -3.0f && SpeedX < 3.0f && SpeedY > -3.0f && SpeedY < 3.0f)
+				{
+					if (playerBlue.currentFrame > 11)
+						playerBlue.SetFrame(0);
+					
+					if (timeWaitBlue < Time.now / 10)
+					{
+						playerBlue.NextFrame();
+						timeWaitBlue = (Time.now / 10) + 15;
+						if (playerBlue.currentFrame == 10)
+							playerBlue.currentFrame = 0;
+					}
+				}
+				if (((MyGame)game).scoredBlue == true)
+				{
+					playerBlue.SetFrame(11);
+				}
+
+				reflectionBlue.currentFrame = playerBlue.currentFrame;
+			}
+
+			if (colour == "red")
+			{
+				if (SpeedX > 3.0f)
+				{
+					if (playerRed.currentFrame < 11)
+						playerRed.SetFrame(12);
+
+					playerRed.scaleX = -1.0f;
+					reflectionRed.scaleX = -1.0f;
+					if (timeWaitRed < Time.now / 10)
+					{
+						playerRed.NextFrame();
+						timeWaitRed = (Time.now / 10) + 15;
+						if (playerRed.currentFrame == 19)
+							playerRed.currentFrame = 12;
+					}
+				}
+				if (SpeedX < -3.0f || SpeedY > 3.0f || SpeedY < -3.0f)
+				{
+					if (playerRed.currentFrame < 11)
+						playerRed.SetFrame(12);
+
+					playerRed.scaleX = 1.0f;
+					reflectionRed.scaleX = 1.0f;
+					if (timeWaitRed < Time.now / 10)
+					{
+						playerRed.NextFrame();
+						timeWaitRed = (Time.now / 10) + 15;
+						if (playerRed.currentFrame == 19)
+							playerRed.currentFrame = 12;
+					}
+				}
+				if (SpeedX > -3.0f && SpeedX < 3.0f && SpeedY > -3.0f && SpeedY < 3.0f)
+				{
+					if (playerRed.currentFrame > 11)
+						playerRed.SetFrame(0);
+
+					if (timeWaitRed < Time.now / 10)
+					{
+						playerRed.NextFrame();
+						timeWaitRed = (Time.now / 10) + 15;
+						if (playerRed.currentFrame == 10)
+							playerRed.currentFrame = 0;
+					}
+				}
+				if (((MyGame)game).scoredRed == true)
+				{
+					playerRed.SetFrame(11);
+				}
+				reflectionRed.currentFrame = playerRed.currentFrame;
+			}
+
 			if (this.SpeedMultiplierX < 0.4f)
-			this.SpeedMultiplierX = 0.4f;
+				this.SpeedMultiplierX = 0.4f;
 			if (this.SpeedMultiplierY < 0.4f)
-			this.SpeedMultiplierY = 0.4f;
+				this.SpeedMultiplierY = 0.4f;
 			Friction = 0.97f;
 			this.touchingGoal = false;
 
@@ -180,17 +323,17 @@ namespace GXPEngine
 						player.y += this.SpeedY;
 						this.SpeedMultiplierX *= -0.1f;
 						this.SpeedMultiplierY *= -0.1f;
-						this.SpeedX -= SpeedX * 2.11f;
-						this.SpeedY -= SpeedY * 2.11f;
+						this.SpeedX -= SpeedX * 1.75f;
+						this.SpeedY -= SpeedY * 1.75f;
 						//this.Impulse(-player.SpeedX, -player.SpeedY);
 					}
 					else {
-						player.Impulse(-this.SpeedX * 0.5f, -this.SpeedY* 0.5f);
+						player.Impulse(-this.SpeedX * 0.5f, -this.SpeedY * 0.5f);
 						this.SpeedMultiplierX *= 0.25f;
 						this.SpeedMultiplierY *= 0.25f;
 						this.SpeedX -= SpeedX * 25.5f;
 						this.SpeedY -= SpeedY * 25.5f;
-						this.Impulse(-this.SpeedX * 43, -this.SpeedY*44);
+						this.Impulse(-this.SpeedX * 43, -this.SpeedY * 44);
 					}
 
 				}

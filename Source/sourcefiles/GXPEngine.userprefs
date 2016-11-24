@@ -4,17 +4,17 @@
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MonoDevelop.Ide.Workbench ActiveDocument="GXPEngine\ScoreBoard.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="GXPEngine\StartMenu.cs">
     <Files>
-      <File FileName="GXPEngine\MyGame.cs" Line="33" Column="33" />
-      <File FileName="GXPEngine\LevelLoader.cs" Line="44" Column="8" />
-      <File FileName="GXPEngine\Player.cs" Line="91" Column="52" />
-      <File FileName="GXPEngine\Puck.cs" Line="26" Column="57" />
-      <File FileName="GXPEngine\Goal.cs" Line="51" Column="36" />
+      <File FileName="GXPEngine\MyGame.cs" Line="12" Column="27" />
+      <File FileName="GXPEngine\LevelLoader.cs" Line="76" Column="4" />
+      <File FileName="GXPEngine\Player.cs" Line="182" Column="27" />
+      <File FileName="GXPEngine\Puck.cs" Line="167" Column="39" />
+      <File FileName="GXPEngine\Goal.cs" Line="31" Column="5" />
       <File FileName="GXPEngine\AntiGoal.cs" Line="4" Column="26" />
-      <File FileName="GXPEngine\ScoreBoard.cs" Line="2" Column="1" />
-      <File FileName="GXPEngine\StartMenu.cs" Line="15" Column="81" />
-      <File FileName="GXPEngine\PowerUps.cs" Line="1" Column="1" />
+      <File FileName="GXPEngine\ScoreBoard.cs" Line="43" Column="23" />
+      <File FileName="GXPEngine\StartMenu.cs" Line="15" Column="6" />
+      <File FileName="GXPEngine\PowerUps.cs" Line="17" Column="16" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.ItemProperties.GXPEngine PreferredExecutionTarget="MonoDevelop.Default" />

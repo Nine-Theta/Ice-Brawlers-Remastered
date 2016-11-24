@@ -21,9 +21,12 @@ namespace GXPEngine
 		public ScoreBoard blueCounter2;
 		public ScoreBoard redCounter;
 		public ScoreBoard redCounter2;
+		public ScoreBoard timeCounter;
+		AnimationSprite timeDivider;
 		public AnimationSprite redSupporter;
 		public AnimationSprite blueSupporter;
 		public Sprite lowerGlass;
+		public PowerUps powerUp;
 
 		public float objectScaleX;
 		public float objectScaleY;
@@ -57,6 +60,11 @@ namespace GXPEngine
 				 "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
 				 "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"
 		};
+
+		protected override Core.Collider createCollider()
+		{
+			return null;//base.createCollider();
+		}
 
 		public LevelLoader(float rScaleX, float rScaleY)
 		{
@@ -125,6 +133,7 @@ namespace GXPEngine
 								player1 = new Player(Key.LEFT, Key.RIGHT, Key.UP, Key.DOWN, "blue");
 								AddChildAt(player1, 5199);
 								player1.color = 0x4040FF;
+								player1.alpha = 0.5f;
 								player1.scaleX = objectScaleX;
 								player1.scaleY = objectScaleY;
 								player1.SetXY(column * TILESIZE, ((float)row + 0.5f) * TILESIZE);
@@ -134,6 +143,7 @@ namespace GXPEngine
 								player2 = new Player(Key.A, Key.D, Key.W, Key.S, "red");
 								AddChildAt(player2,5199);
 								player2.color = 0xFF4040;
+								player2.alpha = 0.5f;
 								player2.scaleX = objectScaleX;
 								player2.scaleY = objectScaleY;
 								player2.SetXY(column * TILESIZE, ((float)row + 0.5f) * TILESIZE);
@@ -237,9 +247,34 @@ namespace GXPEngine
 								break;
 
 							case 8:
+								timeCounter = new ScoreBoard("timer1");
+								AddChildAt(timeCounter, 948999);
+								timeCounter.scaleX = objectScaleX / 1.15f;
+								timeCounter.scaleY = objectScaleY / 1.15f;
+								timeCounter.SetXY(((column + 1.55f) * TILESIZE), (row + 1.55f) * TILESIZE);
+
+								timeCounter = new ScoreBoard("timer2");
+								AddChildAt(timeCounter, 948999);
+								timeCounter.scaleX = objectScaleX / 1.15f;
+								timeCounter.scaleY = objectScaleY / 1.15f;
+								timeCounter.SetXY(((column + 0.65f) * TILESIZE), (row + 1.55f) * TILESIZE);
+
+								timeCounter = new ScoreBoard("timer3");
+								AddChildAt(timeCounter, 948999);
+								timeCounter.scaleX = objectScaleX / 1.15f;
+								timeCounter.scaleY = objectScaleY / 1.15f;
+								timeCounter.SetXY(((column - 0.5f) * TILESIZE), (row + 1.55f) * TILESIZE);
+
+								timeCounter = new ScoreBoard("null");
+								AddChildAt(timeCounter, 948999);
+								timeCounter.currentFrame = 10;
+								timeCounter.scaleX = objectScaleX / 1.15f;
+								timeCounter.scaleY = objectScaleY / 1.15f;
+								timeCounter.SetXY(((column + 0.04f) * TILESIZE), (row + 1.55f) * TILESIZE);
+
 								scoreBoard = new Sprite("Scoreboard.png");
 								scoreBoard.SetOrigin(scoreBoard.width / 2, 0);
-								AddChildAt(scoreBoard, 39);
+								AddChildAt(scoreBoard, 13);
 								scoreBoard.scaleX = objectScaleX / 3.0f;
 								scoreBoard.scaleY = objectScaleY / 3.0f;
 								scoreBoard.SetXY((column * TILESIZE)+ TILESIZE / 2.0f, row * TILESIZE);
@@ -291,6 +326,10 @@ namespace GXPEngine
 					puckReflection.alpha = 0.25f;
 					puckReflection.color = 0x505050;
 				}
+
+				powerUp = new PowerUps();
+				AddChildAt(powerUp, 5690);
+				powerUp.SetXY(500, 500);
 			}
 		}
 
@@ -412,6 +451,8 @@ namespace GXPEngine
 
 			if (Input.GetKeyDown(Key.ONE))
 			{
+				//((MyGame)game).addedPuck = new Sound("");
+
 				extraPuck = new Puck(0xE000FF);
 				AddChild(extraPuck);
 				extraPuck.scaleX = objectScaleX / 1.5f;
@@ -426,6 +467,7 @@ namespace GXPEngine
 				if (player1.InversedControls == false)
 				{
 					player1.InversedControls = true;
+					((MyGame)game).reverseControls.Play();
 				}
 				else {
 					player1.InversedControls = false;
@@ -455,6 +497,7 @@ namespace GXPEngine
 
 			if (Input.GetKeyDown(Key.FOUR) && (player1.SpeedMultiplierX < 0.5f && player2.SpeedMultiplierX < 0.5f))
 			{
+				((MyGame)game).goFast.Play();
 				timeGet = (Time.now / 1000) + 3;
 				player1.SpeedMultiplierX *= 1.5f;
 				player1.SpeedMultiplierY *= 1.5f;

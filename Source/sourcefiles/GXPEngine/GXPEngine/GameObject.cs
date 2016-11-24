@@ -238,6 +238,7 @@ namespace GXPEngine
 		/// Index in the child list where the object should be added.
 		/// </param>
 		public void AddChildAt(GameObject child, int index) {
+
 			if (child.parent != this) {
 				AddChild(child);
 			}
