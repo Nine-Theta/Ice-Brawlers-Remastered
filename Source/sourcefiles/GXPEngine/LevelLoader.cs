@@ -82,6 +82,10 @@ namespace GXPEngine
 			AddChildAt(((MyGame)game).background, 0);
 			((MyGame)game).background.SetXY(0, 0);
 
+			Sprite fullAudience = new Sprite("assets/sprites/fullaudience.png");
+			AddChildAt(fullAudience, 0);
+			fullAudience.SetXY(0, 0);
+
 
 			((MyGame)game).countDown.Play();
 
@@ -416,31 +420,36 @@ namespace GXPEngine
 				if (((MyGame)game).ScoreBlue > ((MyGame)game).ScoreRed)
 				{
 					AnimationSprite BlueVictory = new AnimationSprite("assets/sprites/signs.png", 3, 2);
+					BlueVictory.SetOrigin(BlueVictory.width / 2, BlueVictory.height / 2);
 					AddChild(BlueVictory);
+					BlueVictory.SetXY(game.width / 2, game.height / 2);
 					BlueVictory.currentFrame = 4;
 					((MyGame)game).scoreYell.Play();
-					victoryWait = (Time.now / 1000) + 7;
+					victoryWait = (Time.now / 1000) + 2;
 				}
 
 				if (((MyGame)game).ScoreBlue < ((MyGame)game).ScoreRed)
 				{
 					AnimationSprite RedVictory = new AnimationSprite("assets/sprites/signs.png", 3, 2);
+					RedVictory.SetOrigin(RedVictory.width / 2, RedVictory.height / 2);
 					AddChild(RedVictory);
+					RedVictory.SetXY(game.width / 2, game.height / 2);
 					RedVictory.currentFrame = 3;
 					((MyGame)game).scoreYell.Play();
-					victoryWait = (Time.now / 1000) + 7;
-				}
-
-				if (victoryWait < Time.now / 1000)
-				{
-					this.Destroy();
-					((MyGame)game).start = new StartMenu();
-					AddChild(((MyGame)game).start);
+					victoryWait = (Time.now / 1000) + 2;
 				}
 
 			}
+			else {
+				victoryWait = (Time.now / 1000 + 2);
+			}
 
-
+			if (victoryWait < Time.now / 1000)
+			{
+				((MyGame)game).start = new StartMenu();
+				AddChild(((MyGame)game).start);
+				this.Destroy();
+			}
 
 			if (powerCooldown < Time.now / 10000)
 			{

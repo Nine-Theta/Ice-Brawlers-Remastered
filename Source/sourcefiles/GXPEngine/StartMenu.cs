@@ -136,7 +136,7 @@ namespace GXPEngine
 				credits.y = game.height - (credits.height/2);
 			}
 			else
-				credits.y = game.height;
+				credits.y = game.height + 60;
 
 
 			if (startButtons.currentFrame == 5 && (Input.GetKeyDown(Key.ENTER) || Input.GetKeyDown(Key.FIVE) || Input.GetKeyDown(Key.LEFT_SHIFT) || Input.GetKeyDown(Key.LEFT_CTRL)))
