@@ -8,11 +8,11 @@ namespace GXPEngine
 		float Friction = 0.985f;
 		float speedLimit = 20.0f;
 
-		public Puck(int rColour) : base("testpuck.png")
+		public Puck(int rColour) : base("assets/sprites/testpuck.png")
 		{
 			SetOrigin(width / 2, height / 2);
 
-			if (rColour == 0x505050)
+			//if (rColour == 0x505050)
 			{
 				
 			}

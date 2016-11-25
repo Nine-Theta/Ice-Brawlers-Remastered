@@ -3,10 +3,10 @@ namespace GXPEngine
 {
 	public class AntiGoal : Sprite
 	{
-		public AntiGoal() : base("square.png")
+		public AntiGoal() : base("assets/sprites/square.png")
 		{
 			SetOrigin(width / 2, height / 2);
-			alpha = 0.25f;
+			alpha = 0.0f;
 			color = 0x00FF00;
 		}
 

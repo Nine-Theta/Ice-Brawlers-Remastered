@@ -6,6 +6,9 @@ namespace GXPEngine
 	{
 		int rcounter = 0;
 		string[] rline;
+		public bool toggleMusicOn = true;
+		int powerCooldown;
+		Random rand = new Random();
 
 		public Player player1;
 		public Player player2;
@@ -13,8 +16,9 @@ namespace GXPEngine
 		public Goal blueGoal;
 		public Goal redGoal;
 		public Puck puck;
-		int timeGet;
-		Puck extraPuck;
+		public int timeGetBlue;
+		public int timeGetRed;
+		public Puck extraPuck;
 		public Sprite scoreBoard;
 		public Sprite puckReflection;
 		public ScoreBoard blueCounter;
@@ -27,6 +31,8 @@ namespace GXPEngine
 		public AnimationSprite blueSupporter;
 		public Sprite lowerGlass;
 		public PowerUps powerUp;
+		public AnimationSprite bluePower;
+		public AnimationSprite redPower;
 
 		public float objectScaleX;
 		public float objectScaleY;
@@ -45,7 +51,7 @@ namespace GXPEngine
 				 "9,9,9,9,9,9,9,9,9,9,9,9,9,10,10,10,10,10,10,10,10,10,10,10,10,10",
 				 "9,9,9,9,9,9,9,9,9,9,9,9,9,10,10,10,10,10,10,10,10,10,10,10,10,10",
 				 "0,0,0,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0", //top border
-				 "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
+				 "0,0,0,0,0,0,0,0,0,0,12,0,0,0,0,11,0,0,0,0,0,0,0,0,0,0",
 				 "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
 				 "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
 				 "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
@@ -72,9 +78,14 @@ namespace GXPEngine
 			//objectScaleY = rScaleY / 1.5f;
 
 
-			((MyGame)game).background = new Sprite("testbackground.png");
+			((MyGame)game).background = new Sprite("assets/sprites/testbackground.png");
 			AddChildAt(((MyGame)game).background, 0);
 			((MyGame)game).background.SetXY(0, 0);
+
+
+			((MyGame)game).countDown.Play();
+
+			//((MyGame)game).backgroundMusic.Play();
 
 			if (!File.Exists("LevelLayout.txt"))
 			{
@@ -129,18 +140,18 @@ namespace GXPEngine
 								break;
 
 							case 1:
-								player1 = new Player(Key.LEFT, Key.RIGHT, Key.UP, Key.DOWN, "blue");
+								player1 = new Player(Key.D, Key.G, Key.R, Key.F, "blue");
 								AddChildAt(player1, 5199);
 								player1.color = 0x4040FF;
-								player1.alpha = 0.5f;
+								player1.alpha = 0.0f;
 								player1.SetXY(column * TILESIZE, ((float)row + 0.5f) * TILESIZE);
 								break;
 
 							case 2:
-								player2 = new Player(Key.A, Key.D, Key.W, Key.S, "red");
+								player2 = new Player(Key.LEFT, Key.RIGHT, Key.UP, Key.DOWN, "red");
 								AddChildAt(player2,5199);
 								player2.color = 0xFF4040;
-								player2.alpha = 0.5f;
+								player2.alpha = 0.0f;
 								player2.SetXY(column * TILESIZE, ((float)row + 0.5f) * TILESIZE);
 								break;
 
@@ -148,26 +159,26 @@ namespace GXPEngine
 								puck = new Puck(0x505050);
 								AddChildAt(puck, 1000);
 								puck.color = 0x505050;
-								puck.SetXY((column * TILESIZE) + TILESIZE/2.0f, row * (TILESIZE));
-								puck.Impulse(0.0f, 6.0f * objectScaleY);
+								puck.SetXY((column * TILESIZE) + TILESIZE/2.0f, (row + 2) * (TILESIZE));
+								puck.Impulse(0.0f, 6.0f);
 								break;
 
 							case 4:
 								blueGoal = new Goal("blue");
-								AddChildAt(blueGoal,700);
+								AddChildAt(blueGoal,0);
 								blueGoal.SetXY((column * TILESIZE), ((float)row + 0.5f) * TILESIZE);
 								blueGoal.scaleX = 0.5f;
 								blueGoal.scaleY = 1.0f;
 
 								AntiGoal notBlue = new AntiGoal();
-								AddChild(notBlue);
+								AddChildAt(notBlue,109);
 								notBlue.SetXY(blueGoal.x + 10, blueGoal.y);
 								notBlue.scaleX = 0.8f;
 								notBlue.scaleY = 1.5f;
 
-								AnimationSprite blueGoalSprite = new AnimationSprite("testgoals.png", 2, 1);
+								AnimationSprite blueGoalSprite = new AnimationSprite("assets/sprites/testgoals.png", 2, 1);
 								blueGoalSprite.SetOrigin(blueGoalSprite.width / 2, blueGoalSprite.height / 2);
-								notBlue.AddChild(blueGoalSprite);
+								notBlue.AddChildAt(blueGoalSprite,-1);
 								blueGoalSprite.currentFrame = 1;
 								blueGoalSprite.scaleX = 0.75f;
 								blueGoalSprite.scaleY = 0.55f;
@@ -187,9 +198,9 @@ namespace GXPEngine
 								notRed.scaleX = 0.8f;
 								notRed.scaleY = 1.5f;
 
-								AnimationSprite redGoalSprite = new AnimationSprite("testgoals.png", 2, 1);
+								AnimationSprite redGoalSprite = new AnimationSprite("assets/sprites/testgoals.png", 2, 1);
 								redGoalSprite.SetOrigin(redGoalSprite.width / 2, redGoalSprite.height / 2);
-								notRed.AddChild(redGoalSprite);
+								notRed.AddChildAt(redGoalSprite,0);
 								redGoalSprite.currentFrame = 0;
 								redGoalSprite.scaleX = 0.75f;
 								redGoalSprite.scaleY = 0.55f;
@@ -200,17 +211,17 @@ namespace GXPEngine
 								blueCounter = new ScoreBoard("blue");
 								AddChildAt(blueCounter, 100);
 								//blueCounter.color = 0x9090FF;
-								blueCounter.scaleX = 1.0f / 1.9f;
-								blueCounter.scaleY = 1.0f / 1.9f;
-								blueCounter.SetXY((column * (TILESIZE * 0.925f)) + TILESIZE / 2.0f, row * (TILESIZE * 1.55f));
+								blueCounter.scaleX = 0.675f;
+								blueCounter.scaleY = 0.675f;
+								blueCounter.SetXY((column * TILESIZE) + 2.0f, (row * TILESIZE) + 25.0f);
 
 								blueCounter2 = new ScoreBoard("blue2");
 								AddChildAt(blueCounter2, 100);
-								blueCounter2.scaleX = objectScaleX / 1.9f;
-								blueCounter2.scaleY = objectScaleY / 1.9f;
-								blueCounter2.SetXY((column * (TILESIZE * 0.89f)) + TILESIZE / 2.0f, row * (TILESIZE * 1.55f));
+								blueCounter2.scaleX = 0.675f;
+								blueCounter2.scaleY = 0.675f;
+								blueCounter2.SetXY((column * TILESIZE) - 31.0f, (row * TILESIZE) + 25.0f);
 
-								blueSupporter = new AnimationSprite("Audience_Sprite.png", 3, 1);
+								blueSupporter = new AnimationSprite("assets/sprites/Audience_Sprite.png", 3, 1);
 								AddChildAt(blueSupporter, 0);
 								blueSupporter.currentFrame = 1;
 								blueSupporter.SetXY((column * TILESIZE), row * TILESIZE);
@@ -220,17 +231,17 @@ namespace GXPEngine
 								redCounter = new ScoreBoard("red");
 								AddChildAt(redCounter, 100);
 								//redCounter.color = 0xF00000;
-								redCounter.scaleX = 0.6f;
-								redCounter.scaleY = 0.6f;
-								redCounter.SetXY((column * TILESIZE) - 10.0f, (row * TILESIZE) + 12.0f);
+								redCounter.scaleX = 0.675f;
+								redCounter.scaleY = 0.675f;
+								redCounter.SetXY((column * TILESIZE) - 31.0f, (row * TILESIZE) + 25.0f);
 
 								redCounter2 = new ScoreBoard("red2");
 								AddChildAt(redCounter2, 100);
-								redCounter2.scaleX = 0.6f;
-								redCounter2.scaleY = 0.6f;
-								redCounter2.SetXY((column * TILESIZE) - 38.0f, (row * TILESIZE) + 12.0f);
+								redCounter2.scaleX = 0.675f;
+								redCounter2.scaleY = 0.675f;
+								redCounter2.SetXY((column * TILESIZE) - 64.0f, (row * TILESIZE) + 25.0f);
 
-								redSupporter = new AnimationSprite("Audience_Sprite.png", 3, 1);
+								redSupporter = new AnimationSprite("assets/sprites/Audience_Sprite.png", 3, 1);
 								AddChildAt(redSupporter, 0);
 								redSupporter.SetXY((column * TILESIZE), row * TILESIZE);
 								break;
@@ -238,54 +249,72 @@ namespace GXPEngine
 							case 8:
 								timeCounter = new ScoreBoard("timer1");
 								AddChildAt(timeCounter, 948999);
-								timeCounter.scaleX = 0.9f;
-								timeCounter.scaleY = objectScaleY / 1.15f;
-								timeCounter.SetXY(((column + 1.55f) * TILESIZE), (row + 1.55f) * TILESIZE);
+								timeCounter.scaleX = 1.1f;
+								timeCounter.scaleY = 1.1f;
+								timeCounter.SetXY((column * TILESIZE) + 95.0f, (row * TILESIZE) + 90.0f);
 
 								timeCounter = new ScoreBoard("timer2");
 								AddChildAt(timeCounter, 948999);
-								timeCounter.scaleX = 1.0f / 1.15f;
-								timeCounter.scaleY = 1.0f / 1.15f;
-								timeCounter.SetXY(((column + 0.65f) * TILESIZE), (row + 1.55f) * TILESIZE);
+								timeCounter.scaleX = 1.1f;
+								timeCounter.scaleY = 1.1f;
+								timeCounter.SetXY((column * TILESIZE) + 45.0f, (row * TILESIZE) + 90.0f);
 
 								timeCounter = new ScoreBoard("timer3");
 								AddChildAt(timeCounter, 948999);
-								timeCounter.scaleX = 1.0f / 1.15f;
-								timeCounter.scaleY = 1.0f / 1.15f;
-								timeCounter.SetXY(((column - 0.5f) * TILESIZE), (row + 1.55f) * TILESIZE);
+								timeCounter.scaleX = 1.1f;
+								timeCounter.scaleY = 1.1f;
+								timeCounter.SetXY((column * TILESIZE) - 26.5f, (row * TILESIZE) + 90.0f);
 
 								timeCounter = new ScoreBoard("null");
 								AddChildAt(timeCounter, 948999);
 								timeCounter.currentFrame = 10;
-								timeCounter.scaleX = 1.0f / 1.15f;
-								timeCounter.scaleY = 1.0f / 1.15f;
-								timeCounter.SetXY(((column + 0.04f) * TILESIZE), (row + 1.55f) * TILESIZE);
+								timeCounter.scaleX = 1.1f;
+								timeCounter.scaleY = 1.1f;
+								timeCounter.SetXY((column * TILESIZE) + 7.5f, (row * TILESIZE) + 90.0f);
 
-								scoreBoard = new Sprite("Scoreboard.png");
+								scoreBoard = new Sprite("assets/sprites/Scoreboard.png");
 								scoreBoard.SetOrigin(scoreBoard.width / 2, 0);
 								AddChildAt(scoreBoard, 13);
-								scoreBoard.scaleX = 1.0f / 3.0f;
-								scoreBoard.scaleY = 1.0f / 3.0f;
-								scoreBoard.SetXY((column * TILESIZE)+ TILESIZE / 2.0f, row * TILESIZE);
+								scoreBoard.scaleX = 0.4f;
+								scoreBoard.scaleY = 0.4f;
+								scoreBoard.SetXY((column * TILESIZE) + 32.0f, (row * TILESIZE));
 
-								redSupporter = new AnimationSprite("Audience_Sprite.png", 3, 1);
+								redSupporter = new AnimationSprite("assets/sprites/Audience_Sprite.png", 3, 1);
 								AddChildAt(redSupporter, 0);
 								redSupporter.SetXY((column * TILESIZE), row * TILESIZE);
 								break;
 
 							case 9:
-								redSupporter = new AnimationSprite("Audience_Sprite.png", 3, 1);
+								redSupporter = new AnimationSprite("assets/sprites/Audience_Sprite.png", 3, 1);
 								AddChildAt(redSupporter, 0);
 								redSupporter.SetXY((column * TILESIZE), row * TILESIZE);
 								break;
 
 							case 10:
-								blueSupporter = new AnimationSprite("Audience_Sprite.png", 3, 1);
+								blueSupporter = new AnimationSprite("assets/sprites/Audience_Sprite.png", 3, 1);
 								AddChildAt(blueSupporter, 0);
 								blueSupporter.currentFrame = 1;
 								blueSupporter.SetXY((column * TILESIZE), row * TILESIZE);
 								break;
-								
+
+							case 11:
+								bluePower = new AnimationSprite("assets/sprites/powerups.png", 2, 5);
+								AddChild(bluePower);
+								bluePower.SetOrigin(bluePower.width / 2, bluePower.height / 2);
+								bluePower.scale = 0.3f;
+								bluePower.currentFrame = 8;
+								bluePower.SetXY((column * TILESIZE), (row - 0.65f) * TILESIZE);
+								break;
+
+							case 12:
+								redPower = new AnimationSprite("assets/sprites/powerups.png", 2, 5);
+								AddChild(redPower);
+								redPower.SetOrigin(redPower.width / 2, redPower.height / 2);
+								redPower.scale = 0.3f;
+								redPower.currentFrame = 8;
+								redPower.SetXY((column * TILESIZE), (row - 0.65f) * TILESIZE);
+								break;
+
 							default:
 								Console.WriteLine("Something Else: {0}", Level[row, column]);
 								break;
@@ -294,22 +323,22 @@ namespace GXPEngine
 					Console.WriteLine();
 				}
 
-				lowerGlass = new Sprite("lowerbarrier.png");
-				AddChildAt(lowerGlass, 7299);
+				lowerGlass = new Sprite("assets/sprites/lowerbarrier.png");
+				AddChildAt(lowerGlass, 729);
 				lowerGlass.SetXY(0, game.height - 36);
 
 				if (puck != null)
 				{
-					puckReflection = new Sprite("testpuck.png");
+					puckReflection = new Sprite("assets/sprites/testpuck.png");
 					puck.AddChildAt(puckReflection, 1);
 					puckReflection.SetXY(0, 100);
 					puckReflection.alpha = 0.25f;
 					puckReflection.color = 0x505050;
 				}
 
-				powerUp = new PowerUps();
+				/*powerUp = new PowerUps();
 				AddChildAt(powerUp, 5690);
-				powerUp.SetXY(500, 500);
+				powerUp.SetXY(500, 500);*/
 			}
 		}
 
@@ -352,8 +381,9 @@ namespace GXPEngine
 							player2.SetXY(column * TILESIZE, ((float)row + 0.5f) * TILESIZE);
 							break;
 						case 3:
-							puck.SetXY(((column + ((((MyGame)game).ScoreRed - ((MyGame)game).ScoreBlue) * 0.5f)) * TILESIZE) + TILESIZE / 2.0f, row * (TILESIZE * 0.84f));
-							puck.Impulse(0.0f, 6.0f * objectScaleY);
+							puck.SetXY(((column + ((((MyGame)game).ScoreRed - ((MyGame)game).ScoreBlue) * 0.5f)) * TILESIZE) + TILESIZE / 2.0f, row * (TILESIZE));
+							puck.Impulse(0.0f, 6.0f
+							            );
 							break;
 						case 4:
 							blueGoal.SetXY(column * TILESIZE, ((float)row + 0.5f) * TILESIZE);
@@ -361,16 +391,6 @@ namespace GXPEngine
 						case 5:
 							redGoal.SetXY(column * TILESIZE, ((float)row + 0.5f) * TILESIZE);
 							break;
-						case 6:
-							blueCounter.SetXY((column * (TILESIZE * 0.925f)) + TILESIZE / 2.0f, row * (TILESIZE * 1.55f));
-							break;
-						case 7:
-							redCounter.SetXY((column * (TILESIZE * 0.979f)) + TILESIZE / 2.0f, row * (TILESIZE * 1.55f));
-							break;
-						case 8:
-							scoreBoard.SetXY((column * TILESIZE)+ TILESIZE / 2.0f, row * TILESIZE);
-							break;
-							
 						default:
 							Console.Write("Something Else");
 							break;
@@ -391,6 +411,35 @@ namespace GXPEngine
 
 		void Update()
 		{
+			if (powerCooldown < Time.now / 10000)
+			{
+				int spawnpoint = rand.Next(1, 5);
+
+				powerCooldown = (Time.now / 10000) + 3;
+				powerUp = new PowerUps();
+				AddChild(powerUp);
+				powerUp.SetXY(game.width / 1.395f , game.height / 2.768f);
+
+				switch (spawnpoint)
+				{
+					case 1:
+						powerUp.SetXY(game.width / 4.125f, game.height / 2.775f);
+						break;
+					case 2:
+						powerUp.SetXY(game.width / 4.425f, game.height / 1.13f);
+						break;
+					case 3:
+						powerUp.SetXY(game.width / 1.395f, game.height / 2.768f);
+						break;
+					case 4:
+						powerUp.SetXY(game.width / 1.362f, game.height / 1.129f);
+						break;
+					default:
+						break;
+				}
+			}
+
+
 			if (puckReflection != null)
 			{
 				puckReflection.SetXY(-16.0f, -6.0f);
@@ -401,32 +450,44 @@ namespace GXPEngine
 				extraPuckReflection.SetXY(parent.x - 9.5f, parent.y - 9.5f);
 			}*/
 
-			if (timeGet < (Time.now / 1000))
+			if (timeGetBlue < (Time.now / 1000) && player1.usedPowerUp == true)
 			{
 				player1.SpeedMultiplierX = 0.4f;
 				player1.SpeedMultiplierY = 0.4f;
 				player1.speedLimit = 12.0f;
-				timeGet = 0;
+				bluePower.currentFrame = 8;
+				bluePower.rotation = 0;
+				player1.rotateBluePow = 0;
+				player2.InversedControls = false;
+				player1.hasPowerUp = false;
+				player1.usedPowerUp = false;
+			}
+
+			if (timeGetRed < (Time.now / 1000) && player2.usedPowerUp == true)
+			{
+				redPower.currentFrame = 8;
 				player2.SpeedMultiplierX = 0.4f;
 				player2.SpeedMultiplierY = 0.4f;
 				player2.speedLimit = 12.0f;
+				player2.rotateRedPow = 0;
+				redPower.rotation = 0;
+				player1.InversedControls = false;
+				player2.hasPowerUp = false;
+				player2.usedPowerUp = true;
 			}
 
-
-			if (Input.GetKeyDown(Key.ONE))
+			/*
+			if (Input.GetKeyDown(Key.A))
 			{
-				//((MyGame)game).addedPuck = new Sound("");
-
+				((MyGame)game).addedPuck.Play();
 				extraPuck = new Puck(0xE000FF);
 				AddChild(extraPuck);
-				extraPuck.scaleX = objectScaleX / 1.5f;
-				extraPuck.scaleY = objectScaleY / 1.5f;
 				extraPuck.color = 0xE000FF;
 				extraPuck.SetXY(puck.x, puck.y + 11.0f);
 
 			}
 
-			if (Input.GetKeyDown(Key.TWO))
+			if (Input.GetKeyDown(Key.S))
 			{
 				if (player1.InversedControls == false)
 				{
@@ -446,7 +507,7 @@ namespace GXPEngine
 				}
 			}
 
-			if (Input.GetKeyDown(Key.THREE))
+			if (Input.GetKeyDown(Key.Q))
 			{
 				if (player1.ForceMultiplier != 20.0f)
 					player1.ForceMultiplier = 20.0f;
@@ -459,19 +520,19 @@ namespace GXPEngine
 					player2.ForceMultiplier = 1.0f;
 			}
 
-			if (Input.GetKeyDown(Key.FOUR) && (player1.SpeedMultiplierX < 0.5f && player2.SpeedMultiplierX < 0.5f))
+			if (Input.GetKeyDown(Key.W) && (player1.SpeedMultiplierX < 0.5f && player2.SpeedMultiplierX < 0.5f))
 			{
 				((MyGame)game).goFast.Play();
-				timeGet = (Time.now / 1000) + 3;
+				timeGetBlue = (Time.now / 1000) + 3;
 				player1.SpeedMultiplierX *= 1.5f;
 				player1.SpeedMultiplierY *= 1.5f;
 				player1.speedLimit *= 2.0f;
 				player2.SpeedMultiplierX *= 1.5f;
 				player2.SpeedMultiplierY *= 1.5f;
 				player2.speedLimit *= 2.0f;
-			}
+			}*/
 		
-			//Console.WriteLine(timeGet);
+			//Console.WriteLine(timeGetBlue);
 		}
 
 

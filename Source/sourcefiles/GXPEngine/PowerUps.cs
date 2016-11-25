@@ -18,7 +18,7 @@ namespace GXPEngine
 
 		Random rand = new Random();
 
-		public PowerUps() : base("question.png", 8,1)
+		public PowerUps() : base("assets/sprites/question.png", 8,1)
 		{
 			
 		}
@@ -36,37 +36,29 @@ namespace GXPEngine
 				if (other is Player)
 				{
 					Player player = other as Player;
-
-					int whichPower = rand.Next(1,5);
-
-					switch (whichPower)
+					if (player.hasPowerUp == false)
 					{
-						case 1:
-							if (player.colour == "blue")
-								extraPuckBlue = true;
-							if (player.colour == "red")
-								extraPuckRed = true;
-							break;
-						case 2:
-							if (player.colour == "blue")
-								inversedRed = true;
-							if (player.colour == "red")
-								inversedBlue = true;
-							break;
-						case 3:
-							if (player.colour == "blue")
-								powerShotBlue = true;
-							if (player.colour == "red")
-								powerShotRed = true;
-							break;
-						case 4:
-							if (player.colour == "blue")
-								speedBoostBlue = true;
-							if (player.colour == "red")
-								speedBoostRed = true;
-							break;
-						default:
-							break;
+						int whichPower = rand.Next(1, 5);
+						switch (whichPower)
+						{
+							case 1:
+								player.PlayerPower("puck");
+								break;
+							case 2:
+								player.PlayerPower("inverse");
+								break;
+							case 3:
+								player.PlayerPower("shot");
+								break;
+							case 4:
+								player.PlayerPower("speed");
+								break;
+							default:
+								break;
+						}
+
+						this.Destroy();
+						((MyGame)game).pickUp.Play();
 					}
 				}
 			}

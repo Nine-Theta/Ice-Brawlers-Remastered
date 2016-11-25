@@ -11,10 +11,10 @@ namespace GXPEngine
 
 		public string sideColour = "null";
 
-		public Goal(string rSide) : base("checkers.png")
+		public Goal(string rSide) : base("assets/sprites/checkers.png")
 		{
 			SetOrigin(width / 2, height / 2);
-			alpha = 0.5f;
+			alpha = 0.0f;
 			scaleY = 0.5f;
 
 

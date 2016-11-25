@@ -69,6 +69,7 @@
     <Compile Include="AntiGoal.cs" />
     <Compile Include="PowerUps.cs" />
     <Compile Include="reflection.cs" />
+    <Compile Include="OptionsMenu.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="GXPEngine\" />

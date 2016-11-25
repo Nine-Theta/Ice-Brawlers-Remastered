@@ -10,10 +10,12 @@ public class MyGame : Game //MyGame is a Game
 	public int ScoreBlue;
 	public LevelLoader loader;
 	public Sprite background;
+	public int seconds = 4;
 
 	public bool scoredBlue = false;
 	public bool scoredRed = false;
 	public int shakeCounter = 0;
+	public bool startLock = true;
 
 	int timeGet;
 	bool getTime1, getTime2;
@@ -25,13 +27,20 @@ public class MyGame : Game //MyGame is a Game
 	public float mainScaleY;
 	//public Sprite extraPuckReflection;
 
+	public Sound backgroundMusic;
 	Sound alarmSound;
+	public Sound skating;
 
 	public Sound addedPuck;
 	public Sound reverseControls;
 	public Sound boomShot;
 	public Sound goFast;
 	public Sound scoreYell;
+	public Sound countDown;
+	public Sound pickUp;
+
+	public SoundChannel channelOne;
+	public SoundChannel channelTwo;
 
 	//initialize game here
 	public MyGame() : base(1600, 1200, false)
@@ -44,25 +53,23 @@ public class MyGame : Game //MyGame is a Game
 
 
 		//Music
-		Sound backgroundMusic = new Sound("audience.mp3", true, true);
-		backgroundMusic.Play();
+		backgroundMusic = new Sound("assets/sound/audience.mp3", true, true);
 
-		alarmSound = new Sound("buzzernew.wav", false, false);
+		alarmSound = new Sound("assets/sound/buzzernew.wav", false, false);
+		skating = new Sound("assets/sound/skating.ogg", true, false);
 
-		reverseControls = new Sound("reversed.mp3", false, false);
-		boomShot = new Sound("powershot.mp3", false, false);
-		goFast = new Sound("speedboost.mp3", false, false);
+		addedPuck = new Sound("assets/sound/whistle.mp3", false, false);
+		reverseControls = new Sound("assets/sound/reversed.mp3", false, false);
+		boomShot = new Sound("assets/sound/powershot.mp3", false, false);
+		goFast = new Sound("assets/sound/speedboost.mp3", false, false);
+		countDown = new Sound("assets/sound/countdown.mp3", false, false);
+		pickUp = new Sound("assets/sound/pickup.mp3", false, false);
 
-		scoreYell = new Sound("audience_score.mp3", false, true);
-
-
+		scoreYell = new Sound("assets/sound/audience_score.mp3", false, true);
 	}
 
 	public void Resetti()
 	{
-		background.scaleX = mainScaleX / 2.0f;
-		background.scaleY = mainScaleY / 2.0f;
-
 		loader.LevelReset();
 	}
 
@@ -145,7 +152,7 @@ public class MyGame : Game //MyGame is a Game
 
 		//Console.WriteLine(timeGet);
 
-		if (Input.GetKeyDown(Key.R))
+		if (Input.GetKeyDown(Key.TWO))
 		{
 			Resetti();
 		}
