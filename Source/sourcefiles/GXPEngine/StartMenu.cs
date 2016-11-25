@@ -58,6 +58,8 @@ namespace GXPEngine
 			//AddChild(logo);
 			logo.scale = 0.3f;
 			logo.SetXY(game.width/2 - 8, -200);
+
+			//((MyGame)game).backgroundMusic.Play();
 		}
 
 		protected override Core.Collider createCollider()
@@ -67,6 +69,14 @@ namespace GXPEngine
 
 		void Update()
 		{
+			if (((MyGame)game).toggleMusicOn == true)
+			{
+				music.SetFrame(10);
+			}
+			else {
+				music.SetFrame(11);
+			}
+
 			/*if (credits.y > game.height)
 			{
 				credits.y -= 10.0f;
@@ -146,13 +156,13 @@ namespace GXPEngine
 					music.SetFrame(11);
 					music.x = game.width / 5 - 9.75f;
 					music.y = game.height / 3 * 2 - 0.25f;
-					((MyGame)game).loader.toggleMusicOn = false;
+					((MyGame)game).toggleMusicOn = false;
 				}
 				else {
 					music.SetFrame(10);
 					music.x = game.width / 5;
 					music.y = game.height / 3 * 2;
-					((MyGame)game).loader.toggleMusicOn = true;
+					((MyGame)game).toggleMusicOn = true;
 				}
 			}
 

@@ -94,7 +94,9 @@ namespace GXPEngine
 				if (((MyGame)game).seconds == 0 && ((MyGame)game).startLock)
 				{
 					((MyGame)game).seconds = 500;
-					((MyGame)game).backgroundMusic.Play();
+					if (((MyGame)game).toggleMusicOn = true){
+						((MyGame)game).backgroundMusic.Play();
+					}
 					((MyGame)game).startLock = false;
 				}
 			}

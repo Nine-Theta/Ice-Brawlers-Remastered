@@ -172,7 +172,7 @@ namespace GXPEngine
 				{
 					if (colour == "blue")
 					{
-						if (Input.GetKeyDown(Key.A) || Input.GetKeyDown(Key.W))
+						if (Input.GetKeyDown(Key.RIGHT_SHIFT) || Input.GetKeyDown(Key.RIGHT_CTRL))
 						{
 							switch (whichPower)
 							{
@@ -212,7 +212,7 @@ namespace GXPEngine
 
 					if (colour == "red")
 					{
-						if (Input.GetKeyDown(Key.LEFT_SHIFT) || Input.GetKeyDown(Key.LEFT_CTRL))
+						if (Input.GetKeyDown(Key.LEFT_SHIFT) || Input.GetKeyDown(Key.SPACE))
 						{
 							switch (whichPower)
 							{

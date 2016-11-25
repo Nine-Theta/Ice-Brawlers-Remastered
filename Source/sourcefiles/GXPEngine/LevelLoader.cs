@@ -6,7 +6,6 @@ namespace GXPEngine
 	{
 		int rcounter = 0;
 		string[] rline;
-		public bool toggleMusicOn = true;
 		int powerCooldown;
 		Random rand = new Random();
 		int victoryWait;
@@ -141,7 +140,7 @@ namespace GXPEngine
 								break;
 
 							case 1:
-								player1 = new Player(Key.D, Key.G, Key.R, Key.F, "blue");
+								player1 = new Player(Key.LEFT, Key.RIGHT, Key.UP, Key.DOWN, "blue");
 								AddChildAt(player1, 5199);
 								player1.color = 0x4040FF;
 								player1.alpha = 0.0f;
@@ -149,7 +148,7 @@ namespace GXPEngine
 								break;
 
 							case 2:
-								player2 = new Player(Key.LEFT, Key.RIGHT, Key.UP, Key.DOWN, "red");
+								player2 = new Player(Key.A, Key.D, Key.W, Key.S, "red");
 								AddChildAt(player2,5199);
 								player2.color = 0xFF4040;
 								player2.alpha = 0.0f;

@@ -12,6 +12,8 @@ public class MyGame : Game //MyGame is a Game
 	public Sprite background;
 	public int seconds = 4;
 
+	public bool toggleMusicOn = true;
+
 	public bool scoredBlue = false;
 	public bool scoredRed = false;
 	public int shakeCounter = 0;
