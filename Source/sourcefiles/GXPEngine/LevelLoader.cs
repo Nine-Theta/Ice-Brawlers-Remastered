@@ -9,6 +9,7 @@ namespace GXPEngine
 		public bool toggleMusicOn = true;
 		int powerCooldown;
 		Random rand = new Random();
+		int victoryWait;
 
 		public Player player1;
 		public Player player2;
@@ -411,6 +412,37 @@ namespace GXPEngine
 
 		void Update()
 		{
+			if (((MyGame)game).seconds <= 0 && !((MyGame)game).startLock)
+			{
+				if (((MyGame)game).ScoreBlue > ((MyGame)game).ScoreRed)
+				{
+					AnimationSprite BlueVictory = new AnimationSprite("assets/sprites/signs.png", 3, 2);
+					AddChild(BlueVictory);
+					BlueVictory.currentFrame = 4;
+					((MyGame)game).scoreYell.Play();
+					victoryWait = (Time.now / 1000) + 7;
+				}
+
+				if (((MyGame)game).ScoreBlue < ((MyGame)game).ScoreRed)
+				{
+					AnimationSprite RedVictory = new AnimationSprite("assets/sprites/signs.png", 3, 2);
+					AddChild(RedVictory);
+					RedVictory.currentFrame = 3;
+					((MyGame)game).scoreYell.Play();
+					victoryWait = (Time.now / 1000) + 7;
+				}
+
+				if (victoryWait < Time.now / 1000)
+				{
+					this.Destroy();
+					((MyGame)game).start = new StartMenu();
+					AddChild(((MyGame)game).start);
+				}
+
+			}
+
+
+
 			if (powerCooldown < Time.now / 10000)
 			{
 				int spawnpoint = rand.Next(1, 5);

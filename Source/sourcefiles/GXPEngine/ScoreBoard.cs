@@ -12,6 +12,8 @@ namespace GXPEngine
 		//int seconds = 500;
 		int ones, tens, hundreds;
 
+		public bool timeEnd = false;
+
 		string numberColour = "null";
 
 		public ScoreBoard(string rColour) : base("assets/sprites/Score_Numbers_New_Glow.png", 11, 1)
@@ -82,6 +84,11 @@ namespace GXPEngine
 				if (numberColour == "timer3")
 				{
 					this.SetFrame(hundreds);
+				}
+
+				if (((MyGame)game).seconds == 0 && !((MyGame)game).startLock)
+				{
+					timeEnd = true;
 				}
 
 				if (((MyGame)game).seconds == 0 && ((MyGame)game).startLock)

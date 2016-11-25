@@ -4,7 +4,7 @@ using GXPEngine;
 
 public class MyGame : Game //MyGame is a Game
 {
-	StartMenu start;
+	public StartMenu start;
 
 	public int ScoreRed;
 	public int ScoreBlue;
@@ -152,7 +152,7 @@ public class MyGame : Game //MyGame is a Game
 
 		//Console.WriteLine(timeGet);
 
-		if (Input.GetKeyDown(Key.TWO))
+		if (Input.GetKeyDown(Key.TWO) || Input.GetKeyDown(Key.FIVE))
 		{
 			Resetti();
 		}

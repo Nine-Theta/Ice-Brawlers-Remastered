@@ -4,15 +4,15 @@
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MonoDevelop.Ide.Workbench ActiveDocument="GXPEngine\Player.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="GXPEngine\LevelLoader.cs">
     <Files>
-      <File FileName="GXPEngine\MyGame.cs" Line="7" Column="18" />
-      <File FileName="GXPEngine\LevelLoader.cs" Line="154" Column="28" />
-      <File FileName="GXPEngine\Player.cs" Line="219" Column="21" />
-      <File FileName="GXPEngine\Puck.cs" Line="11" Column="63" />
+      <File FileName="GXPEngine\MyGame.cs" Line="7" Column="9" />
+      <File FileName="GXPEngine\LevelLoader.cs" Line="443" Column="4" />
+      <File FileName="GXPEngine\Player.cs" Line="223" Column="54" />
+      <File FileName="GXPEngine\Puck.cs" Line="163" Column="7" />
       <File FileName="GXPEngine\Goal.cs" Line="17" Column="15" />
       <File FileName="GXPEngine\AntiGoal.cs" Line="9" Column="15" />
-      <File FileName="GXPEngine\ScoreBoard.cs" Line="17" Column="86" />
+      <File FileName="GXPEngine\ScoreBoard.cs" Line="89" Column="36" />
       <File FileName="GXPEngine\StartMenu.cs" Line="132" Column="173" />
       <File FileName="GXPEngine\PowerUps.cs" Line="28" Column="4" />
     </Files>

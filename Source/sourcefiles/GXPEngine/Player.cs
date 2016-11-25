@@ -220,13 +220,13 @@ namespace GXPEngine
 									((MyGame)game).addedPuck.Play();
 									((MyGame)game).loader.extraPuck = new Puck(0xE000FF);
 									((MyGame)game).loader.AddChild(((MyGame)game).loader.extraPuck);
-									((MyGame)game).loader.extraPuck.color = 0x0000FF;
+									((MyGame)game).loader.extraPuck.color = 0xFF0000;
 									((MyGame)game).loader.extraPuck.SetXY(((MyGame)game).loader.puck.x, ((MyGame)game).loader.puck.y + 11.0f);
 									((MyGame)game).loader.redPower.currentFrame = 8;
 									this.hasPowerUp = false;
 									break;
 								case "inverse":
-									((MyGame)game).loader.player2.InversedControls = true;
+									((MyGame)game).loader.player1.InversedControls = true;
 									((MyGame)game).loader.timeGetRed = (Time.now / 1000) + 4;
 									((MyGame)game).reverseControls.Play();
 									((MyGame)game).loader.redPower.currentFrame = 3;
@@ -234,15 +234,15 @@ namespace GXPEngine
 									usedPowerUp = true;
 									break;
 								case "shot":
-									((MyGame)game).loader.player1.ForceMultiplier = 20.0f;
+									((MyGame)game).loader.player2.ForceMultiplier = 20.0f;
 									rotateRedPow = -3;
 									break;
 								case "speed":
 									((MyGame)game).goFast.Play();
 									((MyGame)game).loader.timeGetRed = (Time.now / 1000) + 3;
-									((MyGame)game).loader.player1.SpeedMultiplierX *= 1.5f;
-									((MyGame)game).loader.player1.SpeedMultiplierY *= 1.5f;
-									((MyGame)game).loader.player1.speedLimit *= 2.0f;
+									((MyGame)game).loader.player2.SpeedMultiplierX *= 1.5f;
+									((MyGame)game).loader.player2.SpeedMultiplierY *= 1.5f;
+									((MyGame)game).loader.player2.speedLimit *= 2.0f;
 									rotateRedPow = -5;
 									usedPowerUp = true;
 									break;
