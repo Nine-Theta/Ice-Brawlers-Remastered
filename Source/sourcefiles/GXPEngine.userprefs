@@ -1,0 +1,21 @@
+﻿<Properties StartupConfiguration="{B5126D4C-7FE0-4552-BC8C-E68D529C22B2}|Default">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.Workbench ActiveDocument="GXPEngine\LevelLoader.cs">
+    <Files>
+      <File FileName="GXPEngine\MyGame.cs" Line="49" Column="42" />
+      <File FileName="GXPEngine\LevelLoader.cs" Line="463" Column="24" />
+      <File FileName="GXPEngine\Player.cs" Line="320" Column="29" />
+      <File FileName="GXPEngine\Puck.cs" Line="163" Column="7" />
+      <File FileName="GXPEngine\Goal.cs" Line="17" Column="15" />
+      <File FileName="GXPEngine\AntiGoal.cs" Line="9" Column="15" />
+      <File FileName="GXPEngine\ScoreBoard.cs" Line="99" Column="6" />
+      <File FileName="GXPEngine\StartMenu.cs" Line="120" Column="4" />
+      <File FileName="GXPEngine\PowerUps.cs" Line="28" Column="4" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.ItemProperties.GXPEngine PreferredExecutionTarget="MonoDevelop.Default" />
+</Properties>

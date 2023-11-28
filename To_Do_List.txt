@@ -1,0 +1,20 @@
+- User Interface
+	start menu -> 	Play game (in the middle)
+			Settings  (Left side)
+			Exit	  (Right side)
+	Feedback messages ingame (Goal, Victory, Overtime)
+
+- Power Up icons shown at the bottom of the screen after pick up
+	Power up icon "?" on the field maybe 2 or 4 that spawn in the small circles
+	Power up "?" icons disappear after pick up
+	New sprite for the "?" icon
+
+- Audience with animations and new decoration tiles (Go team Red, Go team Blue Banner)
+
+- Sounds extra puck
+
+- 5 min countdown and 3,2,1 countdown at beginning of the match + player have locked movement
+
+- Reset player and puck position after goal
+
+- Scaling when playing full screen (goals, puck, scoreboard)
